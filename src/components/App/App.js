@@ -1,5 +1,8 @@
-import logo from './logo.svg';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import logo from '../../logo.svg';
 import './App.css';
+// import CurrentUserContext from '../../contexts/CurrentUserContext';
+
 
 function App() {
   return (
