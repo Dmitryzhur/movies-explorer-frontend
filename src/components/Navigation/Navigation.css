@@ -1,0 +1,36 @@
+.navigation {
+	display: flex;
+	align-items: center;
+}
+
+.nav__link {
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 16px;
+	margin-right: 30px;
+	text-decoration: none;
+	transition: all .6s;
+}
+
+.nav__link:last-child {
+	margin-right: 0;
+}
+
+.nav__link_signup {
+	color: #fff;
+}
+
+.nav__link_signup:hover {
+	opacity: .6;
+}
+
+.nav__link_signin {
+	background-color: #3DDC84;
+	border-radius: 3px;
+	color: #000;
+	padding: 10px 20px;
+}
+
+.nav__link_signin:hover {
+	opacity: .6;
+}
