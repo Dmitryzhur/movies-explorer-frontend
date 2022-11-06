@@ -1,6 +1,6 @@
 import avatar from '../../images/avatar.jpg';
 import './AboutMe.css';
-import TitleForSection from '../TitleForSectoin/TitleForSection';
+import TitleForSection from '../TitleForSection/TitleForSection';
 import Portfolio from '../Portfolio/Portfolio';
 
 function AboutMe() {
@@ -18,7 +18,7 @@ function AboutMe() {
 						После того, как прошёл курс по&nbsp;веб-разработке, активно продолжаю развиваться в&nbsp;новых веб-технологиях и&nbsp;создании пет-проектов.</p>
 					<a className='about-me__ref' href='https://github.com/Dmitryzhur/'>Github</a>
 				</div>
-				<img className='about-me__avatar' alt='Аватар' src={avatar}/>
+				<img className='about-me__avatar' alt='Аватар' src={avatar} />
 			</div>
 			<Portfolio />
 		</section>

@@ -1,5 +1,5 @@
 import './Techs.css';
-import TitleForSection from '../TitleForSectoin/TitleForSection';
+import TitleForSection from '../TitleForSection/TitleForSection';
 
 function Techs() {
 	return (
