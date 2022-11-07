@@ -5,6 +5,10 @@
   color: white;
 	min-height: 74px;
 	padding: 0 70px;
+	position: sticky;
+	top: 0;
+	background-color: #202020;
+	z-index: 1;
 }
 .logo {
   height: 38px;
