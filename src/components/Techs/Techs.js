@@ -3,7 +3,7 @@ import TitleForSection from '../TitleForSection/TitleForSection';
 
 function Techs() {
 	return (
-		<section className='techs'>
+		<section className='techs' id='techs'>
 			<div className='techs__title'>
 				<TitleForSection title="Технологии" />
 			</div>

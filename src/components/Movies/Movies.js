@@ -6,9 +6,11 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
 function Movies() {
+	const loggedIn = true;
+
  return (
 	<div className='movies'>
-		<Header />
+		<Header loggedIn={loggedIn} />
 		<SearchForm />
 		<Preloader />
 		<MoviesCardList />

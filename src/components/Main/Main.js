@@ -6,10 +6,13 @@ import AboutProject from	'../AboutProject/AboutProject';
 import Techs from	'../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 
+
 function Main() {
+	const loggedIn = false;
+
 	return (
 		<div className='main'>
-			<Header />
+			<Header loggedIn={loggedIn}/>
 			<Promo />
 			<AboutProject />
 			<Techs />

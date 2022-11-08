@@ -1,4 +1,5 @@
 function Register() {
+	const loggedIn = false;
 
 }
 

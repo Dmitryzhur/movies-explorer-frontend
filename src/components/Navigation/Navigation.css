@@ -1,6 +1,19 @@
 .navigation {
+	width: 100%;
 	display: flex;
+	flex-direction: row;
 	align-items: center;
+	position: relative;
+	justify-content: space-between;
+}
+
+.nav-movies {
+	padding: 0 0 0 44px;
+	margin: 0;
+	display: flex;
+	flex-direction: row;
+	column-gap: 16px;
+
 }
 
 .nav__link {
@@ -10,18 +23,21 @@
 	margin-right: 30px;
 	text-decoration: none;
 	transition: all .6s;
+	color: #fff;
+	padding: 0;
 }
 
 .nav__link:last-child {
 	margin-right: 0;
 }
 
-.nav__link_signup {
-	color: #fff;
+.nav__link:hover {
+	opacity: .6;
 }
 
-.nav__link_signup:hover {
-	opacity: .6;
+.nav__link_signup {
+	padding: 0 30px 0 0;
+	margin: 0;
 }
 
 .nav__link_signin {
@@ -31,6 +47,28 @@
 	padding: 10px 20px;
 }
 
-.nav__link_signin:hover {
-	opacity: .6;
+.nav__link_movies {
+	padding: 0;
+	margin: 0;
+}
+
+.nav__link_saved-movies {
+	padding: 0;
+	margin: 0;
+}
+
+.nav__link_profile {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	column-gap: 17px;
+	padding: 0;
+	margin: 0;
+}
+
+.nav__link_profile-avatar {
+	background: #313131 url(../../images/nav__link_profile.svg) center no-repeat;
+	border-radius: 4px;
+	width: 26px;
+	height: 30px;
 }
