@@ -3,6 +3,7 @@
 	margin: 0;
 	display: flex;
 	flex-direction: column;
+	box-sizing: border-box;
 }
 
 .about-me__content {

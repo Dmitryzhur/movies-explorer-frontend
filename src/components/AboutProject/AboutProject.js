@@ -14,7 +14,7 @@ function AboutProject() {
 				</li>
 				<li className='about-project__info-cell'>
 					<h3 className='about-project__info-heading'>На выполнение диплома ушло 5&nbsp;недель</h3>
-					<p className='about-project__info-description'>У&nbsp;каждого этапа был мягкий и&nbsp;жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.У&nbsp;каждого этапа был мягкий и&nbsp;жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.</p>
+					<p className='about-project__info-description'>У&nbsp;каждого этапа был мягкий и&nbsp;жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.</p>
 				</li>
 			</ul>
 			<div className='about-project__duration'>
