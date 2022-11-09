@@ -1,12 +1,12 @@
 import './Header.css';
-import logo from '../../images/logo.svg';
+import Logo from '../Logo/Logo';
 import Navigation from '../Navigation/Navigation';
 
 function Header({ loggedIn }) {
 	return (
 		<header className="header">
-        <img src={logo} className="logo" alt="logo" />
-				<Navigation loggedIn={loggedIn}/>
+        <Logo />
+				<Navigation loggedIn={loggedIn} />
       </header>
 	)
 }

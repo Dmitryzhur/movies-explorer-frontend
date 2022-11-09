@@ -2,6 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+	width: 100%;
+	box-sizing: border-box;
   color: white;
 	min-height: 74px;
 	padding: 0 70px;
@@ -9,23 +11,4 @@
 	top: 0;
 	background-color: #202020;
 	z-index: 1;
-}
-.logo {
-  height: 38px;
-  width: 38px;;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

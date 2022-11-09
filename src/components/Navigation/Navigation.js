@@ -21,7 +21,6 @@ function Navigation({ loggedIn }) {
 					<p className="nav__link_profile-text">Аккаунт</p>
 					<div className="nav__link_profile-avatar"></div>
 				</Link>
-
 			</nav>
 		)
 	}
