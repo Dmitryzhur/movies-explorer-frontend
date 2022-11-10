@@ -1,5 +1,5 @@
 .movies__section {
-	padding: 70px 70px 30px 70px;
+	padding: 70px 70px 30px;
 	margin: 0;
 }
 
@@ -33,4 +33,24 @@
 
 .movies__button:hover {
 	opacity: .6;
+}
+
+@media screen and (max-width: 1200px) {
+	.movies__section {
+		padding: 70px 30px 30px;
+	}
+
+	.movies__list {
+		grid-gap: 36px 30px;
+	}
+}
+
+@media screen and (max-width: 760px) {
+	.movies__section {
+		padding: 40px 10px 30px;
+	}
+
+	.movies__list {
+		grid-gap: 20px 0px;
+	}
 }

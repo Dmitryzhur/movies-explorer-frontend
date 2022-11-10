@@ -17,7 +17,6 @@
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	column-gap: 40px;
 }
 
 
@@ -26,9 +25,12 @@
 	border-bottom: 1px solid #424242;
 }
 
+.portfolio__link-item:first-child {
+	padding-top: 0;
+}
+
 .portfolio__link-item:last-child {
 	border-bottom: none;
-	margin: 0;
 	padding: 20px 0 0 0;
 }
 
@@ -46,4 +48,35 @@
 
 .portfolio__link-ref:hover {
 	opacity: .6;
+}
+
+
+@media screen and (max-width: 1200px) {
+	.portfolio {
+		padding-top: 90px;
+	}
+
+	.portfolio__link-ref {
+		font-size: 28px;
+		line-height: 1.79;
+	}
+}
+
+
+@media screen and (max-width: 760px) {
+	.portfolio {
+		padding-top: 70px;
+	}
+
+	.portfolio__heading {
+		margin-bottom: 40px;
+		font-size: 14px;
+		line-height: 1.43;
+	}
+
+	.portfolio__link-ref {
+		font-size: 18px;
+		line-height: 1.56;
+		background-size: 15px;
+	}
 }

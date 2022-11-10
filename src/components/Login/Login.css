@@ -1,6 +1,8 @@
 .login {
 	max-width: 396px;
 	width: 100%;
+	align-items: center;
+	justify-content: center;
 }
 
 .login__container {
@@ -107,7 +109,6 @@
 	margin: 0;
 	padding: 14px 176px;
 	cursor: pointer;
-
 }
 
 .login__suggest-text {
@@ -115,6 +116,8 @@
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 17px;
+	margin: 0;
+	padding: 0;
 }
 
 .login__suggest-button {
@@ -124,4 +127,39 @@
 	margin: 0;
 	padding: 0;
 	cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+	.login__container {
+		padding: 232px 0;
+	}
+	
+	
+}
+
+@media screen and (max-width: 760px) {
+	.login__container {
+		padding: 56px 30px 30px;
+	}
+	
+	.login__logo {
+		align-self: center;
+	}
+
+	.login__greeting {
+		align-self: center;
+	}
+
+	.login__box {
+		width: 260px;
+	}
+
+	.login__button {
+		font-size: 12px;
+		padding: 13px 113px;
+	}
+
+	.login__suggest-text {
+		font-size: 12px;
+	}
 }

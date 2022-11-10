@@ -1,6 +1,8 @@
 .register {
 	max-width: 396px;
 	width: 100%;
+	align-items: center;
+	justify-content: center;
 }
 
 .register__container {
@@ -114,6 +116,8 @@
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 17px;
+	margin: 0;
+	padding: 0;
 }
 
 .register__suggest-button {
@@ -123,4 +127,38 @@
 	margin: 0;
 	padding: 0;
 	cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+	.register__container {
+		padding: 232px 0;
+	}
+}
+
+@media screen and (max-width: 760px) {
+	.register__container {
+		padding: 56px 30px 30px;
+	}
+	
+	.register__logo {
+		align-self: center;
+	}
+
+	.register__greeting {
+		align-self: center;
+	}
+
+	.register__box {
+		width: 260px;
+	}
+
+	.register__button {
+		font-size: 12px;
+		padding: 13px 68px;
+	}
+
+	.register__suggest-text {
+		font-size: 12px;
+	}
+	
 }

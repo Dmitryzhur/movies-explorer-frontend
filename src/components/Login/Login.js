@@ -21,7 +21,7 @@ function Login() {
 					</div>
 					<div className='login__box'>
 						<label className='login__label'>Пароль</label>
-						<input className='login__input login__input-password' type='password' id='password' name='password' placeholder='' value='' />
+						<input className='login__input login__input-password' type='password' id='password' name='password' placeholder='password' />
 						<span className="login__input-error input-name-error login__error"></span>
 					</div>
 				</form>
