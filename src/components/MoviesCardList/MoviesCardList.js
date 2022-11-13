@@ -9,7 +9,7 @@ function MoviesCardList() {
 	return (
 		<section className='movies__section'>
 			<div className='movies__container'>
-				<div className='movies__list'>
+				<ul className='movies__list'>
 					<MoviesCard
 						name="Соскучились по мне?"
 						duration="100"
@@ -59,7 +59,7 @@ function MoviesCardList() {
 						duration="100"
 						image={image}
 					/>
-				</div>
+				</ul>
 				<div className='movies__container-with-button'>
 					<button className='movies__button' type='button'>Ещё</button>
 				</div>

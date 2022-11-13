@@ -16,7 +16,7 @@ function AboutMe() {
 					<p className='about-me__text'>Я из&nbsp;Екатеринбурга, закончил факультет магистратуры "Бизнес и менеджмент природных ресурсов и окружающей среды" в&nbsp;Уральском Федеральном Университете.
 						Сейчас продолжаю обучение в&nbsp;аспирантуре. У&nbsp;меня есть жена и&nbsp;кошка. Я&nbsp;люблю слушать музыку и&nbsp;увлекаюсь просмотром сериалов. С&nbsp;2021&nbsp;года работаю в&nbsp;региональном операторе Свердловской области, занимаюсь реализацией вторичного сырья.
 						После того, как прошёл курс по&nbsp;веб-разработке, активно продолжаю развиваться в&nbsp;новых веб-технологиях и&nbsp;создании пет-проектов.</p>
-					<a className='about-me__ref' href='https://github.com/Dmitryzhur/'>Github</a>
+					<a className='about-me__ref' target="_blank" rel="noreferrer" href='https://github.com/Dmitryzhur/'>Github</a>
 				</div>
 				<img className='about-me__avatar' alt='Аватар' src={avatar} />
 			</div>

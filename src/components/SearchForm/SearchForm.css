@@ -24,17 +24,22 @@
 
 .search-form__input {
 	width: 100%;
-	border: none;
+	/* border: none; */
 	border-radius: 8px;
+	border: 1px solid #2F2F2F;
   box-sizing: border-box;
   outline: 0;
   background-color: #2F2F2F;
-  padding: 16px 0 16px 20px;
+  padding: 15px 0 15px 20px;
   margin: 0;
 	color: #8B8B8B;
   font-size: 14px;
 	font-weight: 400;
   line-height: 1.29;
+}
+
+.search-form__input:focus {
+  border: 1px solid #474747;
 }
 
 .search-form__button {

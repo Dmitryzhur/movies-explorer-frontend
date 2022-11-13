@@ -1,7 +1,6 @@
 import "./Navigation.css";
 import { Link } from "react-router-dom";
 
-
 function Navigation({ loggedIn }) {
 	if (!loggedIn) {
 		return (
@@ -14,7 +13,7 @@ function Navigation({ loggedIn }) {
 		return (
 			<nav className="navigation">
 				<div className="nav-movies">
-					<Link to="/movies" className="nav__link nav__link_movies">Фильмы</Link>
+					<Link to="/movies" className="nav__link nav__link_movies nav__link_type_active">Фильмы</Link>
 					<Link to="/saved-movies" className="nav__link nav__link_saved-movies">Сохраненные фильмы</Link>
 				</div>
 				<Link to="/profile" className="nav__link nav__link_profile">

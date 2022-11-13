@@ -1,10 +1,10 @@
 import './Register.css';
 import Logo from '../Logo/Logo';
+import { Link } from 'react-router-dom';
 
 function Register() {
 	return (
-		<section className="register">
-		<div className='register__container'>
+		<main className="register">
 			<div className='register__logo'>
 				<Logo />
 			</div>
@@ -31,11 +31,10 @@ function Register() {
 			<div className='register__buttons'>
 				<button className='register__button' type='submit'>Зарегистрироваться</button>
 				<p className='register__suggest-text'>Уже зарегистрированы?&nbsp;
-					<button className='register__suggest-button' type='submit'>Войти</button>
+					<Link to="/signin" className='register__suggest-button' type='submit'>Войти</Link>
 				</p>
 			</div>
-		</div>
-	</section>
+		</main>
 	)
 }
 

@@ -6,7 +6,7 @@ function SearchForm({ onSubmit }) {
 		<section className='search-form'>
 			<div className='search-form__container'>
 				<form className='search-form__form' name='SearchMovie' onSubmit={onSubmit}>
-					<input className='search-form__input' type='text' name='search-movie' placeholder='Фильм'></input>
+					<input className='search-form__input' type='text' name='search-movie' placeholder='Фильм' required></input>
 					<button className='search-form__button' type='submit'></button>
 				</form>
 				<div className='search-form__filter-checkbox'>

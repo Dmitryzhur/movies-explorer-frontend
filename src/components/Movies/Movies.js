@@ -8,15 +8,17 @@ import Footer from '../Footer/Footer';
 function Movies() {
 	const loggedIn = true;
 
- return (
-	<div className='movies'>
-		<Header loggedIn={loggedIn} />
-		<SearchForm />
-		<Preloader />
-		<MoviesCardList />
-		<Footer />
-	</div>
- )
+	return (
+		<>
+			<Header loggedIn={loggedIn} />
+			<main className='movies'>
+				<SearchForm />
+				<Preloader />
+				<MoviesCardList />
+			</main>
+			<Footer />
+		</>
+	)
 }
 
 export default Movies;

@@ -12,7 +12,6 @@ import NotFound from '../NotFound/NotFound';
 function App() {
 	return (
 		<div className="page">
-
 			<Switch>
 				<Route exact path="/">
 					<Main />
@@ -36,7 +35,6 @@ function App() {
 					<NotFound />
 				</Route>
 			</Switch>
-
 		</div>
 	);
 }

@@ -1,11 +1,6 @@
 .login {
 	max-width: 396px;
 	width: 100%;
-	align-items: center;
-	justify-content: center;
-}
-
-.login__container {
 	padding: 70px 0;
 	display: flex;
 	flex-direction: column;
@@ -35,10 +30,10 @@
 .login__form {
 	display: flex;
 	flex-direction: column;
+	width: 100%;
 }
 
 .login__box {
-	width: 396px;
 	padding: 0;
 	margin: 0;
 	display: flex;
@@ -97,18 +92,23 @@
 	align-items: center;
 	justify-content: center;
 	row-gap: 16px;
+	width: 100%;
 }
 
 .login__button {
+	width: 100%;
+	justify-content: center;
 	color: #fff;
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 1;
 	background: #4285F4;
 	border-radius: 3px;
+	border: none;
 	margin: 0;
-	padding: 14px 176px;
+	padding: 14px 0px;
 	cursor: pointer;
+	text-decoration: none;
 }
 
 .login__suggest-text {
@@ -127,14 +127,17 @@
 	margin: 0;
 	padding: 0;
 	cursor: pointer;
+	text-decoration: none;
 }
 
 @media screen and (max-width: 1200px) {
+	.login {
+		width: 320px;
+	}
+	
 	.login__container {
 		padding: 232px 0;
 	}
-	
-	
 }
 
 @media screen and (max-width: 760px) {
@@ -148,15 +151,12 @@
 
 	.login__greeting {
 		align-self: center;
-	}
-
-	.login__box {
-		width: 260px;
+		padding: 50px 0 80px;
 	}
 
 	.login__button {
 		font-size: 12px;
-		padding: 13px 113px;
+		padding: 13px 0;
 	}
 
 	.login__suggest-text {

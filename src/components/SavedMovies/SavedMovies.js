@@ -8,12 +8,14 @@ function SavedMovies() {
 	const loggedIn = true;
 
 	return (
-		<div className='saved-movies'>
+		<>
 			<Header loggedIn={loggedIn} />
-			<SearchForm />
-			<MoviesCardList />
+			<main className='saved-movies'>
+				<SearchForm />
+				<MoviesCardList />
+			</main>
 			<Footer />
-		</div>
+		</>
 	)
 }
 
