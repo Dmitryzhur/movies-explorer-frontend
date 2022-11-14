@@ -45,6 +45,7 @@
 
 	.movies__list {
 		grid-gap: 36px 30px;
+		grid-template-columns: repeat(auto-fit, minmax(339px, 1fr));
 	}
 }
 
@@ -55,5 +56,6 @@
 
 	.movies__list {
 		grid-gap: 20px 10px;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 	}
 }
