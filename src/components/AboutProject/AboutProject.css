@@ -1,0 +1,153 @@
+.about-project {
+	padding: 110px 70px;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+.about-project__info {
+  color: #fff;
+	width: 100%;
+	margin: 110px 0;
+	padding: 0;
+  display: flex;
+	flex-direction: row;
+	align-items: baseline;
+	column-gap: 40px;
+	list-style: none;
+}
+
+.about-project__info-cell {
+	width: 50%;
+}
+
+
+.about-project__info-heading {
+	margin: 0 0 26px;
+	font-weight: 400;
+	font-size: 20px;
+	line-height: 24px;
+	letter-spacing: -0.04em;
+}
+
+.about-project__info-description {
+	margin: 0;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.43;
+}
+
+.about-project__duration {
+	display: grid;
+	grid-template-columns: 1fr 4fr;
+	row-gap: 14px;
+	grid-template-areas: 
+	"back-duration front-duration"
+	"back-text front-text";
+}
+
+.about-project__duration-line {
+	text-align: center;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.21;
+	margin: 0;
+	padding: 9px 0;
+}
+
+.about-project__duration-line_stage_backend {
+	background-color: #3DDC84;
+	color: #000;
+	grid-area: back-duration;
+}
+
+.about-project__duration-line_stage_frontend {
+	background-color: #303030;
+	color: #fff;
+	grid-area: front-duration;
+}
+
+.about-project__duration-text {
+	margin: 0;
+	padding: 0;
+	color: #8B8B8B;
+	text-align: center;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.21;
+}
+
+.about-project__duration-text_stage_backend {
+	grid-area: back-text;
+}
+
+.about-project__duration-text_stage_frontend {
+	grid-area: front-text;
+}
+
+
+@media screen and (max-width: 1200px) {
+	.about-project {
+		padding: 90px 50px;
+	}
+
+	.about-project__info {
+		column-gap: 30px;
+		margin: 70px 0 93px;
+		column-gap: 30px;
+	}
+
+	.about-project__info-heading {
+		margin-bottom: 22px;
+	}
+
+	.about-project__info-description {
+		font-size: 12px;
+		line-height: 1.5;
+	}
+
+}
+
+@media screen and (max-width: 760px) {
+	.about-project {
+		padding: 70px 18px;
+	}
+
+	.about-project__info {
+		margin: 60px 0;
+		flex-direction: column;
+		row-gap: 56px;
+	}
+
+	.about-project__info-cell {
+		width: 100%;
+	}
+
+	.about-project__info-heading {
+		margin-bottom: 16px;
+		font-size: 18px;
+		line-height: 22px;
+	}
+
+	.about-project__info-description {
+		font-size: 11px;
+		line-height: 1.45;
+	}
+
+	.about-project__duration {
+		grid-template-columns: 1.7fr 3.3fr;
+		row-gap: 10px;
+	}
+
+	.about-project__duration-line {
+		font-size: 11px;
+		font-weight: 400;
+		line-height: 13px;
+	}
+
+	.about-project__duration-text {
+		font-size: 11px;
+		font-weight: 400;
+		line-height: 13px;
+	}
+
+}

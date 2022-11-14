@@ -1,0 +1,162 @@
+.register {
+	max-width: 396px;
+	width: 100%;
+	padding: 70px 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.register__logo {
+	align-self: flex-start;
+}
+
+.register__greeting {
+	align-self: flex-start;
+	padding: 40px 0;
+}
+
+.register__title {
+	color: #fff;
+	font-size: 24px;
+	font-weight: 500;
+	line-height: 1;
+	padding: 0;
+	margin: 0;
+	cursor: default;
+}
+
+.register__form {
+	display: flex;
+	flex-direction: column;
+}
+
+.register__box {
+	width: 396px;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	box-sizing: border-box;
+}
+
+.register__label {
+	padding: 0;
+	margin: 0 0 10px 0;
+	color: #8B8B8B;
+	font-size: 10px;
+	font-weight: 500;
+	line-height: 12px;
+}
+
+.register__input {
+	box-sizing: border-box;
+	padding: 15px;
+	margin: 0 0 20px 0;
+	color: #fff;
+	background: #2F2F2F;
+	border-radius: 8px;
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1;
+	border: none;
+	cursor: default;
+	width: 100%;
+}
+
+.register__input-password {
+	color: #EE3465
+}
+
+.register__input:focus {
+	outline: none;
+}
+
+.register__input-error {
+	margin: 0;
+	padding: 0;
+	font-size: 10px;
+	font-weight: 400;
+	line-height: 12px;
+	color: #EE3465;
+}
+
+.register__buttons {
+	padding: 69px 0 0 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	row-gap: 16px;
+}
+
+.register__button {
+	color: #fff;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1;
+	background: #4285F4;
+	border-radius: 3px;
+	border: none;
+	margin: 0;
+	padding: 14px 125px;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.register__suggest-text {
+	color: #8B8B8B;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 17px;
+	margin: 0;
+	padding: 0;
+}
+
+.register__suggest-button {
+	color: #4285F4;
+	background: none;
+	border: none;
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+@media screen and (max-width: 1200px) {
+	.register__container {
+		padding: 232px 0;
+	}
+}
+
+@media screen and (max-width: 760px) {
+	.register__container {
+		padding: 56px 30px 30px;
+	}
+	
+	.register__logo {
+		align-self: center;
+	}
+
+	.register__greeting {
+		align-self: center;
+		padding: 50px 0 80px;
+	}
+
+	.register__box {
+		width: 260px;
+	}
+
+	.register__button {
+		font-size: 12px;
+		padding: 13px 68px;
+	}
+
+	.register__suggest-text {
+		font-size: 12px;
+	}
+	
+}

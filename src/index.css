@@ -1,0 +1,27 @@
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts/fonts.css);
+@import url(./components/App/App.css);
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* body::-webkit-scrollbar {
+  width: 10px;          
+}
+
+body::-webkit-scrollbar-track {
+  background:#202020;      
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #3d3d3d;    
+  border-radius: 20px;       
+} */
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

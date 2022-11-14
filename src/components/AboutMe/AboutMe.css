@@ -1,0 +1,154 @@
+.about-me {
+	padding: 110px 70px 125px;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+}
+
+.about-me__content {
+	color: #fff;
+	padding: 66px 0 0 0;
+	margin: 0;
+	display: flex;
+	flex-direction: row;
+  justify-content: space-between;
+}
+
+.about-me__description {
+	color: #fff;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	max-width: 600px;
+}
+
+.about-me__title {
+	padding: 0;
+	margin: 0;
+	font-size: 50px;
+	font-weight: 400;
+	line-height: 1.16;
+	letter-spacing: -0.04em;
+}
+
+.about-me__subtitle {
+	padding: 18px 0 0 0;
+	margin: 0;
+	font-size: 18px;
+	font-weight: 500;
+	line-height: 1.11;
+}
+
+.about-me__text {
+	padding: 26px 0 0 0;
+	margin: 0;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.57;
+}
+
+.about-me__ref {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	padding: 0;
+	margin: 0;
+	color: #fff;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1;
+	text-decoration: none;
+	transition: all .6s;
+}
+
+.about-me__ref:hover {
+	opacity: .6;
+}
+
+.about-me__avatar {
+	width: 270px;
+	border-radius: 10px;
+	margin: 0;
+	align-self: center;
+}
+
+
+@media screen and (max-width: 1200px) {
+	.about-me {
+		padding: 90px 50px;
+	}
+
+	.about-me__description {
+		max-width: 50%;
+	}
+	
+	.about-me__title {
+		font-size: 40px;
+		line-height: 1;
+	}
+	
+	.about-me__subtitle {
+		padding-top: 16px;
+		font-size: 12px;
+		line-height: 1.5;
+	}
+	
+	.about-me__text {
+		padding-top: 20px;
+		font-size: 12px;
+		line-height: 1.5;
+	}
+
+	.about-me__avatar {
+		width: 255px;
+	}
+
+}
+
+@media screen and (max-width: 760px) {
+	.about-me {
+		padding: 70px 14px;
+	}
+
+	.about-me__content {
+		padding-top: 60px;
+		margin: 0;
+		flex-direction: column-reverse;
+	}
+
+	.about-me__description {
+		max-width: 100%;
+	}
+
+	.about-me__title {
+		font-size: 30px;
+		line-height: 36px;
+	}
+
+	.about-me__subtitle {
+		padding-top: 20px;
+		font-size: 11px;
+		line-height: 1.45;
+	}
+
+	.about-me__text {
+		font-size: 11px;
+		line-height: 1.45;
+	}
+
+	.about-me__avatar {
+		width: 292px;
+		padding-bottom: 40px;
+	}
+
+	.about-me__ref {
+		position: relative;
+		padding: 40px 0 0 0;
+		margin: 0;
+	}
+	
+
+}
