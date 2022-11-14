@@ -71,7 +71,7 @@
 	font-weight: 500;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 760px) {
 	.navigation__burger {
 		position: absolute;
 		right: 0;
@@ -147,7 +147,7 @@
 	}
 }
 
-@media screen and (max-width: 760px) {
+@media screen and (max-width: 400px) {
 	.navigation__container {
 		width: 100%;
 		padding: 144px 0 0;

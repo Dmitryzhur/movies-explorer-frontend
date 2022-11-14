@@ -18,7 +18,7 @@
 	transition: .7s ease-out;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 760px) {
 	.navburger {
 		display: flex;
 		cursor: pointer;
@@ -43,7 +43,7 @@
 	}
 }
 
-@media screen and (max-width: 760px) {
+@media screen and (max-width: 400px) {
 	.navburger {
 		width: 40px;
 		height: 43px;
