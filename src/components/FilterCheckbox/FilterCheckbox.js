@@ -9,8 +9,8 @@ const FilterCheckbox = memo(() => {
 	);
 	return (
 		<div className='checkbox__container'>
-			<div className={`checkbox__short-box ${isSelectedShortMovie ? "isSelectedBox" : ""}`} onClick={onSelectShortMovie}>
-				<div className={`checkbox__short-item ${isSelectedShortMovie ? "isSelectedItem" : ""}`} />
+			<div className={`checkbox__short-box ${!isSelectedShortMovie ? "isSelectedBox" : ""}`} onClick={onSelectShortMovie}>
+				<div className={`checkbox__short-item ${!isSelectedShortMovie ? "isSelectedItem" : ""}`} />
 			</div>
 			<div className='checkbox__title'>Короткометражки</div>
 		</div>

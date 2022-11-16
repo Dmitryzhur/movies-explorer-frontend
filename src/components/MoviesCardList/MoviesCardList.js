@@ -1,67 +1,30 @@
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import { useEffect } from "react";
 
-import image from '../../images/film1.jfif';
-import image1 from '../../images/avatar.jpg';
+function MoviesCardList({ movies, onClick, path }) {
 
-function MoviesCardList() {
+	useEffect(() => {
+		console.log("MoviesCardList, movies", movies);
+	}, [movies])
 
 	return (
 		<section className='movies__section'>
 			<div className='movies__container'>
 				<ul className='movies__list'>
-					<MoviesCard
-						name="Соскучились по мне?"
-						duration="100"
-						image={image} />
-					<MoviesCard
-						name="Соскучились по мне?"
-						duration="100"
-						image={image1} />
-					<MoviesCard
-						name="Соскучились по мне?"
-						duration="100"
-						image={image} />
-					<MoviesCard
-						name="Соскучились по мне?"
-						duration="100"
-						image={image1} />
-					<MoviesCard
-						name="Соскучились по мне?"
-						duration="100"
-						image={image} />
-					<MoviesCard
-						name="Соскучились по мне?"
-						duration="100"
-						image={image1} />
-					<MoviesCard
-						name="Соскучились по мне?"
-						duration="100"
-						image={image} />
-					<MoviesCard
-						name="Соскучились по мне?"
-						duration="100"
-						image={image} />
-						<MoviesCard
-						name="Соскучились по мне?"
-						duration="100"
-						image={image1} />
-					<MoviesCard
-						name="Соскучились по мне?"
-						duration="100"
-						image={image} />
-					<MoviesCard
-						name="Соскучились по мне?"
-						duration="100"
-						image={image1} />
-					<MoviesCard
-						name="Соскучились по мне?"
-						duration="100"
-						image={image}
-					/>
+					{movies.length !== 0 && movies.map(movie => {
+						return (
+							<MoviesCard
+								key={movie.id}
+								movie={movie}
+								isSaved={false}
+								path={path}
+							/>
+						)
+					})}
 				</ul>
 				<div className='movies__container-with-button'>
-					<button className='movies__button' type='button'>Ещё</button>
+					<button className={`movies__button`} onClick={onClick} type='button'>Ещё</button>
 				</div>
 			</div>
 		</section>
