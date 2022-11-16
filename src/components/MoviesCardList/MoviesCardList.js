@@ -1,12 +1,8 @@
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import { useEffect } from "react";
 
 function MoviesCardList({ movies, onClick, path }) {
 
-	useEffect(() => {
-		console.log("MoviesCardList, movies", movies);
-	}, [movies])
 
 	return (
 		<section className='movies__section'>

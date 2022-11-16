@@ -19,7 +19,7 @@ function MoviesCard({ key, movie, isSaved, saveCard, path }) {
 
 	return (
 		<li className='movie-card'>
-			<a className="movie-card__link" href={movie.trailerLink} target="_blank">
+			<a className="movie-card__link" href={movie.trailerLink} target="_blank" rel="noreferrer">
 				<img className='movie-card__image' src={'https://api.nomoreparties.co/' + movie.image.url} alt='Обложка фильма' />
 			</a>
 			<div className='movie-card__container'>

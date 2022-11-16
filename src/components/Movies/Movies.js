@@ -13,8 +13,10 @@ function Movies(props) {
 
 	const [allMovies, setAllMovies] = useState([]);
 	// const [shortMovie, setShortMovie] = useState([]);
+	const [searchWord, setSearchWord] = useState('');
 	const [showedMovies, setShowedMovies] = useState([]);
 
+	const [filteredMovies, setFilteredMovies] = useState([]);
 	const [initialCount, setInitialCount] = useState(0);
 	const [addedCount, setAddedCount] = useState(0);
 	const [width, setWidth] = useState(window.innerWidth);
@@ -35,7 +37,6 @@ function Movies(props) {
 	window.onresize = (() => {
 		setTimeout(() => {
 			setWidth(window.innerWidth);
-			console.log(width);
 			handleCountCardsOnPage();
 		}, 500)
 	})
@@ -44,36 +45,51 @@ function Movies(props) {
 		handleCountCardsOnPage();
 	}, [width])
 
+	function handleChangeSearch(evt) {
+		setSearchWord(evt.target.value)
+	}
 
-	useEffect(() => {
-		setShowedMovies(allMovies.slice(0, initialCount));
-	}, [allMovies])
+	function handleSubmitSearchForm(evt) {
+		evt.preventDefault();
 
-	useEffect(() => {
-		console.log("Movies, showedMovies:", showedMovies);
-	}, [showedMovies])
-
-	useEffect(() => {
-		// if (loggedIn) {
 		moviesApi.getMovies()
 			.then(loadedMovies => {
 				setAllMovies(loadedMovies);
 				localStorage.setItem('allMovies', JSON.stringify(loadedMovies));
-				// let userSavedMovies = data.filter(i => i.owner === currentUser._id);
-				// setSavedMovie(userSavedMovies);
+				setFilteredMovies(findMovies(loadedMovies, searchWord));
 			})
-			.catch((err) => {
-				console.log(err)
-			});
-		// }
-		// }, [loggedIn])
-	}, [])
+			.catch(() => {
+				setAllMovies([]);
+				setFilteredMovies([]);
+			})
+	}
+
+	useEffect(() => {
+		if (filteredMovies.length === 0) {
+			setShowedMovies([]);
+		} else {
+			setShowedMovies(filteredMovies.slice(0, initialCount));
+		}
+	}, [filteredMovies])
+
+	function findMovies(loadedMovies, searchWord) {
+		return loadedMovies.filter(movie => {
+			if (movie.nameRU) {
+				return movie.nameRU.toLowerCase().includes(searchWord.toLowerCase());
+			}
+			return;
+		});
+	}
 
 	return (
 		<>
 			<Header loggedIn={loggedIn} />
 			<main className='movies'>
-				<SearchForm />
+				<SearchForm
+					searchWord={searchWord}
+					handleChangeSearch={handleChangeSearch}
+					handleSubmitSearchForm={handleSubmitSearchForm}
+				/>
 				<Preloader />
 				<MoviesCardList
 					movies={showedMovies}

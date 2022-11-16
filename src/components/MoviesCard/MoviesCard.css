@@ -29,11 +29,14 @@
 
 .movie-card__name {
 	padding: 0;
-	margin: 0 0 10px 0;
+	margin: 0 25px 10px 0;
 	color: #fff;
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 1;
+	text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .movie-card__duration {
