@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 import './Movies.css';
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
@@ -8,8 +9,7 @@ import Footer from '../Footer/Footer';
 import moviesApi from "../../utils/MoviesApi";
 
 function Movies(props) {
-	const loggedIn = true;
-	// const savedFilm = false;
+	const currentUser = useContext(CurrentUserContext);
 
 	const [allMovies, setAllMovies] = useState([]);
 	// const [shortMovie, setShortMovie] = useState([]);
@@ -83,7 +83,7 @@ function Movies(props) {
 
 	return (
 		<>
-			<Header loggedIn={loggedIn} />
+			<Header loggedIn={props.loggedIn} />
 			<main className='movies'>
 				<SearchForm
 					searchWord={searchWord}

@@ -5,15 +5,6 @@ class MainApi {
 		this._credentials = options.credentials;
 	}
 
-	getMovies() {
-		return fetch(`${this._baseURL}/movies`, {
-			method: 'GET',
-			headers: this._headers,
-			credentials: this._credentials,
-		})
-			.then(this._checkResponseStatus)
-	}
-
 	getUser() {
 		return fetch(`${this._baseURL}/users/me`, {
 			method: 'GET',
@@ -23,16 +14,40 @@ class MainApi {
 			.then(this._checkResponseStatus)
 	}
 
-	toggleSave(_id, isSaved) {
+	editProfile(data) {
+		return fetch(`${this._baseURL}/users/me`, {
+			method: 'PATCH',
+			headers: this._headers,
+			credentials: this._credentials,
+			body: JSON.stringify({
+				name: data.name,
+				email: data.email,
+			})
+		},
+		)
+			.then(this._checkResponseStatus)
+	}
+
+	getMovies() {
+		return fetch(`${this._baseURL}/movies`, {
+			method: 'GET',
+			headers: this._headers,
+			credentials: this._credentials,
+		})
+			.then(this._checkResponseStatus)
+	}
+
+	toggleSave(movie, isSaved) {
 		if (!isSaved) {
-			return fetch(`${this._baseURL}/movies/${_id}`, {
-				method: 'PUT',
+			return fetch(`${this._baseURL}/movies/`, {
+				method: 'POST',
 				headers: this._headers,
 				credentials: this._credentials,
+				body: JSON.stringify(movie)
 			})
 				.then(this._checkResponseStatus)
 		} else {
-			return fetch(`${this._baseURL}/movies/${_id}`, {
+			return fetch(`${this._baseURL}/movies/${movie._id}`, {
 				method: 'DELETE',
 				headers: this._headers,
 				credentials: this._credentials,
@@ -41,55 +56,6 @@ class MainApi {
 		}
 	}
 
-	editProfile(data) {
-		return fetch(`${this._baseURL}/users/me`, {
-			method: 'PATCH',
-			headers: this._headers,
-			credentials: this._credentials,
-			body: JSON.stringify(data)
-		},
-		)
-			.then(this._checkResponseStatus)
-	}
-
-	register(data) {
-		return fetch(`${this._baseUrl}/signup`, {
-			method: 'POST',
-			headers: this._headers,
-			body: JSON.stringify(data)
-		})
-			.then(this._checkResponseStatus)
-	}
-
-	authorize(data) {
-		return fetch(`${this._baseUrl}/signin`, {
-			method: 'POST',
-			headers: this._headers,
-			body: JSON.stringify(data),
-			credentials: this._credentials,
-		})
-			.then(this._checkResponseStatus)
-	}
-
-	getContent(jwt) {
-		return fetch(`${this._baseURL}/users/me`, {
-			method: 'GET',
-			headers: {
-				"Authorization": `Bearer ${jwt}`,
-				"Content-Type": "application/json"
-			}
-		})
-			.then(this._checkResponseStatus)
-	}
-
-	logout() {
-    return fetch(`${this._baseUrl}/signout`, {
-      headers: this._headers,
-      credentials: this._credentials,
-    })
-    .then(this._checkResponseStatus)
-  }
-	
 	_checkResponseStatus(res) {
 		if (res.ok) {
 			return res.json();
@@ -99,9 +65,9 @@ class MainApi {
 }
 
 const API_CONFIG = {
-	baseUrl: 'http://localhost:3000',
+	// baseUrl: 'https://api.dmitryzhur-movies.nomoredomains.icu/',
+	baseUrl: 'http://localhost:4000',
 	headers: {
-		authorization: '5ae85ff0-6a9f-41ff-87d1-d1c4768e29ea',
 		'Content-Type': 'application/json'
 	},
 	credentials: 'include',
