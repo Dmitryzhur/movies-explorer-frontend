@@ -1,7 +1,7 @@
 import './MoviesCard.css';
 import { useState, useCallback } from "react";
 
-function MoviesCard({ key, movie, isSaved, saveCard, path }) {
+function MoviesCard({ key, movie, isSaved, saveCard, path, isVisible }) {
 	// const currentUser = useContext(CurrentUserContext);
 
 	// const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -18,7 +18,7 @@ function MoviesCard({ key, movie, isSaved, saveCard, path }) {
 	);
 
 	return (
-		<li className='movie-card'>
+		<li className={`movie-card ${isVisible ? 'movie-card__on' : ''}`}>
 			<a className="movie-card__link" href={movie.trailerLink} target="_blank" rel="noreferrer">
 				<img className='movie-card__image' src={'https://api.nomoreparties.co/' + movie.image.url} alt='Обложка фильма' />
 			</a>

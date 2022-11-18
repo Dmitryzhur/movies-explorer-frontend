@@ -1,30 +1,37 @@
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import Preloader from '../Preloader/Preloader';
 
-function MoviesCardList({ movies, onClick, path }) {
-
-
+function MoviesCardList({ movies, path, countSeeMovies, whileSearch, afterSearch }) {
+ 
 	return (
 		<section className='movies__section'>
 			<div className='movies__container'>
-				<ul className='movies__list'>
-					{movies.length !== 0 && movies.map(movie => {
-						return (
+				{whileSearch ? (
+					<Preloader />
+				) : movies.length !== 0 ? (
+					<ul className="movies__list">
+						{movies.map((movie, id) => (
 							<MoviesCard
 								key={movie.id}
 								movie={movie}
-								isSaved={false}
+								// isSaved={false}
 								path={path}
+								isVisible={id <= countSeeMovies}
 							/>
-						)
-					})}
-				</ul>
-				<div className='movies__container-with-button'>
-					<button className={`movies__button`} onClick={onClick} type='button'>Ещё</button>
-				</div>
+						))}
+					</ul>
+				) : (
+					afterSearch && (
+						<div className="movies__container">
+							<h2 className="movies__emptySearch">Здесь такого нет!</h2>
+						</div>
+					)
+				)}
 			</div>
 		</section>
 	)
 }
 
 export default MoviesCardList;
+

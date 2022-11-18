@@ -12,30 +12,17 @@
 	margin: 0;
 }
 
-.movies__container-with-button {
-	display: flex;
-	justify-content: center;
-	padding: 50px 0 80px 0;
-}
-
-.movies__button {
-	min-width: 200px;
-	width: 100%;
-	background-color: #2F2F2F;
-	border-radius: 6px;
-	padding: 11px 0 9px 0;
-	border: none;
+.movies__emptySearch {
+	align-self: center;
+	justify-self: center;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 24px;
+	line-height: 1;
 	text-align: center;
 	color: #fff;
-	font-size: 12px;
-	font-weight: 500;
-	line-height: 15px;
-	cursor: pointer;
-	transition: all .6s;
-}
-
-.movies__button:hover {
-	opacity: .6;
+	margin: 0;
+	padding: 0;
 }
 
 @media screen and (max-width: 1200px) {
