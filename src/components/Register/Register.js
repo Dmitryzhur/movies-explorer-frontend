@@ -1,32 +1,24 @@
 import { useState } from 'react';
 import './Register.css';
 import Logo from '../Logo/Logo';
-import { Link } from 'react-router-dom';
+import { Link, withRouter  } from 'react-router-dom';
+import isEmail from "validator/lib/isEmail";
+import { useForm } from "react-hook-form";
 
 function Register({ onRegisterUser }) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [name, setName] = useState('');
 
-	function handleChangeName(e) {
-		setName(e.target.value)
-	}
+	const { register, handleSubmit, formState: { errors }, reset } = useForm({mode: 'onBlur'});
 
-	function handleChangeEmail(e) {
-		setEmail(e.target.value)
-	}
-
-	function handleChangePassword(e) {
-		setPassword(e.target.value)
-	}
-
-	function handleSubmit(e) {
-		e.preventDefault();
+	function onSubmit(data) {
 		onRegisterUser({
-			name,
-			email,
-			password
+			name: data.name,
+      email: data.email,
+      password: data.password,
 		});
+		reset();
 	}
 
 	return (
@@ -37,7 +29,7 @@ function Register({ onRegisterUser }) {
 			<div className='register__greeting'>
 				<h2 className='register__title'>Добро пожаловать!</h2>
 			</div>
-			<form className='register__form' id="register__form" onSubmit={handleSubmit}>
+			<form className='register__form' id="register__form" name="register" onSubmit={handleSubmit(onSubmit)}>
 				<div className='register__box'>
 					<label className='register__label'>Имя</label>
 					<input
@@ -46,11 +38,21 @@ function Register({ onRegisterUser }) {
 						id='name'
 						name='name'
 						placeholder='Имя'
-						onChange={handleChangeName}
-						value={name}
 						required
+						{...register('name', {
+							required: true,
+							minLength: 2,
+							maxLength: 30,
+							pattern: /[а-яa-z]/i,
+						})}
+						aria-invalid={errors.name ? "true" : "false"}
 					/>
-					<span className="register__input-error input-name-error register__error"></span>
+					<span className="register__input-error input-name-error register__error">
+						{errors.name?.type === 'required' && 'Пожалуйста, заполните поле'}
+						{errors.name?.type === 'minLength' && 'Имя должно быть не менее 2 символов'}
+						{errors.name?.type === 'maxLength' && 'Имя должно быть не более 30 символов'}
+						{errors.name?.type === 'pattern' && 'Недопустимые символы, пожалуйста, используйте только буквы'}
+					</span>
 				</div>
 				<div className='register__box'>
 					<label className='register__label'>E-mail</label>
@@ -60,11 +62,16 @@ function Register({ onRegisterUser }) {
 						id='email'
 						name='email'
 						placeholder='email'
-						onChange={handleChangeEmail}
-						value={email}
 						required
+						{...register('email', {
+							required: true,
+							validate: (input) => isEmail(input),
+						})}
 					/>
-					<span className="register__input-error input-name-error register__error"></span>
+					<span className="register__input-error input-name-error register__error">
+						{errors.email?.type === 'required' && 'Необходимо заполнить поле'}
+						{errors.email?.type === 'validate' && 'Введите Email'}
+					</span>
 				</div>
 				<div className='register__box'>
 					<label className='register__label'>Пароль</label>
@@ -72,13 +79,20 @@ function Register({ onRegisterUser }) {
 						className='register__input register__input-password'
 						type='password'
 						id='password'
-						ame='password'
+						name='password'
 						placeholder='password'
-						onChange={handleChangePassword}
-						value={password}
 						required
+						{...register('password', {
+							required: true,
+							minLength: 6,
+							pattern: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}/g,
+						})}
 					/>
-					<span className="register__input-error input-name-error register__error"></span>
+					<span className="register__input-error input-name-error register__error">
+						{errors.password?.type === 'required' && 'Необходимо заполнить поле'}
+						{errors.password?.type === 'minLength' && 'Пароль содержит менее 6 символов, пожалуйста, измените на более сложный'}
+						{errors.password?.type === 'pattern' && 'Пароль должен содержать цифры, а также строчные и заглавные буквы'}
+					</span>
 				</div>
 			</form>
 			<div className='register__buttons'>
@@ -86,7 +100,6 @@ function Register({ onRegisterUser }) {
 					className='register__button'
 					type='submit'
 					form="register__form"
-					onSubmit={handleSubmit}
 				>
 					Зарегистрироваться
 				</button>
@@ -98,4 +111,4 @@ function Register({ onRegisterUser }) {
 	)
 }
 
-export default Register;
+export default withRouter(Register);

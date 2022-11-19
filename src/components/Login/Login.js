@@ -1,26 +1,18 @@
-import { useState } from 'react';
 import './Login.css';
 import Logo from '../Logo/Logo';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import isEmail from "validator/lib/isEmail";
+import { useForm } from "react-hook-form";
 
 function Login({ onLoginUser }) {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+	const { register, handleSubmit, formState: { errors }, reset } = useForm({mode: 'onBlur'});
 
-	function handleChangeEmail(e) {
-		setEmail(e.target.value)
-	}
-
-	function handleChangePassword(e) {
-		setPassword(e.target.value)
-	}
-
-	function handleSubmit(e) {
-		e.preventDefault();
+	function onSubmit(data) {
 		onLoginUser({
-			email,
-			password
+			email: data.email,
+      password: data.password,
 		});
+		reset();
 	}
 
 	return (
@@ -31,7 +23,7 @@ function Login({ onLoginUser }) {
 			<div className='login__greeting'>
 				<h2 className='login__title'>Рады видеть!</h2>
 			</div>
-			<form className='login__form' id="login__form" onSubmit={handleSubmit}>
+			<form className='login__form' id="login__form" name="login" onSubmit={handleSubmit(onSubmit)}>
 				<div className='login__box'>
 					<label className='login__label'>E-mail</label>
 					<input
@@ -40,11 +32,17 @@ function Login({ onLoginUser }) {
 						id='email'
 						name='email'
 						placeholder='email'
-						onChange={handleChangeEmail}
-						value={email}
 						required
+						{...register('email', {
+							required: true,
+							validate: (input) => isEmail(input),
+						})}
+						aria-invalid={errors.email ? "true" : "false"}
 					/>
-					<span className="login__input-error input-name-error login__error"></span>
+					<span className="login__input-error input-name-error login__error">
+						{errors.email?.type === 'required' && 'Необходимо заполнить поле'}
+						{errors.email?.type === 'validate' && 'Введите Email'}
+					</span>
 				</div>
 				<div className='login__box'>
 					<label className='login__label'>Пароль</label>
@@ -54,18 +52,25 @@ function Login({ onLoginUser }) {
 						id='password'
 						name='password'
 						placeholder='password'
-						onChange={handleChangePassword}
-						value={password}
 						required
+						{...register('password', {
+							required: true,
+							minLength: 6,
+							pattern: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}/g,
+						})}
 					/>
-					<span className="login__input-error input-name-error login__error"></span>
+					<span className="login__input-error input-name-error login__error">
+						{errors.password?.type === 'required' && 'Необходимо заполнить поле'}
+						{errors.password?.type === 'minLength' && 'Пароль содержит менее 6 символов, пожалуйста, измените на более сложный'}
+						{errors.password?.type === 'pattern' && 'Пароль должен содержать цифры, а также строчные и заглавные буквы'}
+					</span>
 				</div>
 			</form>
 			<div className='login__buttons'>
 				<button
 					className='login__button'
 					type='submit'
-					onSubmit={handleSubmit}
+					// onSubmit={handleSubmit}
 					form="login__form"
 				>
 					Войти
@@ -78,4 +83,4 @@ function Login({ onLoginUser }) {
 	)
 }
 
-export default Login;
+export default withRouter(Login);

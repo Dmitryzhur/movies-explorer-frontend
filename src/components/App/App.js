@@ -1,4 +1,4 @@
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, withRouter } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
@@ -359,4 +359,4 @@ function App() {
 	);
 }
 
-export default App;
+export default withRouter(App);

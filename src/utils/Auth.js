@@ -43,7 +43,7 @@ class Auth {
 }
 
 const AUTH_CONFIG = {
-	// baseUrl: 'https://api.dmitryzhur-movies.nomoredomains.icu/',
+	// baseUrl: 'https://api.dmitryzhur-movies.nomoredomains.icu',
 	baseUrl: 'http://localhost:4000',
 	headers: {
 		'Content-Type': 'application/json'
