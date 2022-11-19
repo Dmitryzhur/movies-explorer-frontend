@@ -4,13 +4,13 @@ import { Link, withRouter } from 'react-router-dom';
 import isEmail from "validator/lib/isEmail";
 import { useForm } from "react-hook-form";
 
-function Login({ onLoginUser }) {
-	const { register, handleSubmit, formState: { errors }, reset } = useForm({mode: 'onBlur'});
+function Login({ onLoginUser, popup, popupText }) {
+	const { register, handleSubmit, formState: { errors }, reset } = useForm({ mode: 'onBlur' });
 
 	function onSubmit(data) {
 		onLoginUser({
 			email: data.email,
-      password: data.password,
+			password: data.password,
 		});
 		reset();
 	}
@@ -79,6 +79,9 @@ function Login({ onLoginUser }) {
 					<Link to="/signup" className='login__suggest-button'>Регистрация</Link>
 				</p>
 			</div>
+			<p className={`popupText ${popup && 'popupText_on'}`}>
+				{popupText}
+			</p>
 		</main>
 	)
 }

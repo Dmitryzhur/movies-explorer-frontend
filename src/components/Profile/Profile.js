@@ -8,20 +8,19 @@ import { useForm } from "react-hook-form";
 function Profile(props) {
 	const currentUser = useContext(CurrentUserContext);
 	const [name, setName] = useState(currentUser.name);
-	const [email, setEmail] = useState(currentUser.email);
 
-	const { register, formState: { errors, isValid }, handleSubmit } = useForm({mode: 'onChange'});
+	const { register, formState: { errors, isValid }, handleSubmit } = useForm({ mode: 'onChange' });
 
- function handleSubmitChanges(data) {
-    if (data.name !== currentUser.name || data.email !== currentUser.email) {
-      props.onSubmit({
-        name: data.name,
-        email: data.email,
-      })
-    } else {
-      return !isValid;
-    }
-  }
+	function handleSubmitChanges(data) {
+		if (data.name !== currentUser.name || data.email !== currentUser.email) {
+			props.onSubmit({
+				name: data.name,
+				email: data.email,
+			})
+		} else {
+			return !isValid;
+		}
+	}
 
 	return (
 		<>
@@ -47,9 +46,9 @@ function Profile(props) {
 							})}
 						/>
 						<span className="profile__input-error input-name-error profile__error">
-						{errors.name?.type === 'minLength' && 'Имя должно быть не менее 2 символов'}
-						{errors.name?.type === 'maxLength' && 'Имя должно быть не более 30 символов'}
-						{errors.name?.type === 'pattern' && 'Недопустимые символы, пожалуйста, используйте только буквы'}
+							{errors.name?.type === 'minLength' && 'Имя должно быть не менее 2 символов'}
+							{errors.name?.type === 'maxLength' && 'Имя должно быть не более 30 символов'}
+							{errors.name?.type === 'pattern' && 'Недопустимые символы, пожалуйста, используйте только буквы'}
 						</span>
 					</div>
 					<div className='profile__box'>
@@ -66,7 +65,7 @@ function Profile(props) {
 							})}
 						/>
 						<span className="profile__input-error input-name-error profile__error">
-						{errors.email?.type === 'validate' && 'Введите Email'}
+							{errors.email?.type === 'validate' && 'Введите Email'}
 						</span>
 					</div>
 				</form>
@@ -77,7 +76,7 @@ function Profile(props) {
 						type='submit'
 						form="profile__form"
 
-						
+
 					>
 						Редактировать
 					</button>
@@ -89,6 +88,9 @@ function Profile(props) {
 						Выйти из аккаунта
 					</button>
 				</div>
+				<p className={`popupText ${props.popup && 'popupText_on'}`}>
+					{props.popupText}
+				</p>
 			</main>
 		</>
 	)

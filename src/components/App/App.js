@@ -39,6 +39,9 @@ function App() {
 	const [width, setWidth] = useState(window.innerWidth);
 	const [countSeeMovies, setCountSeeMovies] = useState(initialCount);
 
+	const [popup, setPopup] = useState(false);
+	const [popupText, setPopupText] = useState('');
+
 	function handleCountCardsOnPage() {
 		if (width > 1800) {
 			setInitialCount(20);
@@ -143,7 +146,7 @@ function App() {
 			setWhileSearch(false);
 			setAfterSearch(true);
 		} {
-			console.log('Я не справился, босс');
+			// console.log('Я не справился, босс');
 		}
 	}
 
@@ -171,7 +174,7 @@ function App() {
 	}
 
 	function toggleValueCheckbox(value) {
-		if (history.path === '/movies') {
+		if (history.location.pathname === '/movies') {
 			setIsCheckboxShort(value);
 			localStorage.setItem('checkboxValue', value);
 		} else {
@@ -189,6 +192,14 @@ function App() {
 			.catch((err) => {
 				setLoggedIn(false);
 				console.log(err);
+				setPopup(true);
+				setPopupText("Произошла ошибка. Попробуйте еще раз");
+			})
+			.finally(() => {
+				setTimeout(() => {
+					setPopup(false);
+					setPopupText('')
+				}, 2000)
 			})
 	}
 
@@ -201,21 +212,41 @@ function App() {
 			.then(() => {
 				history.push('/movies');
 				console.log("loggedIn в авторизации показывает", loggedIn);
+				localStorage.getItem('checkboxValue');
+				localStorage.getItem('userCheckboxValue');
 			})
 			.catch((err) => {
 				setLoggedIn(false);
 				console.log(err);
-				// history.push('/');
+				setPopup(true);
+				setPopupText("Неправильный логин или пароль");
+			})
+			.finally(() => {
+				setTimeout(() => {
+					setPopup(false);
+					setPopupText('')
+				}, 2000)
 			})
 	}
 
 	function handleUpdateUser(data) {
 		mainApi.editProfile(data)
 			.then((res) => {
+				console.log('успех');
 				setCurrentUser(res);
+				setPopup(true);
+				setPopupText('Данные успешно обновлены!');
 			})
 			.catch((err) => {
 				console.log(err);
+				setPopup(true);
+				setPopupText('Данные не обновлены! Возникла ошибка.')
+			})
+			.finally(() => {
+				setTimeout(() => {
+					setPopup(false);
+					setPopupText('')
+				}, 2000)
 			})
 	}
 
@@ -337,17 +368,23 @@ function App() {
 						onSubmit={handleUpdateUser}
 						onLogout={handleLogout}
 						path="/profile"
+						popupText={popupText}
+						popup={popup}
 					/>
 					<Route path="/signin">
 						<Login
 							loggedIn={loggedIn}
 							onLoginUser={handleLoginUser}
+							popupText={popupText}
+							popup={popup}
 						/>
 					</Route>
 					<Route path="/signup">
 						<Register
 							loggedIn={loggedIn}
 							onRegisterUser={handleRegisterUser}
+							popupText={popupText}
+							popup={popup}
 						/>
 					</Route>
 					<Route path="*">

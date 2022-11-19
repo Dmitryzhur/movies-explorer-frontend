@@ -1,22 +1,18 @@
-import { useState } from 'react';
 import './Register.css';
 import Logo from '../Logo/Logo';
-import { Link, withRouter  } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import isEmail from "validator/lib/isEmail";
 import { useForm } from "react-hook-form";
 
-function Register({ onRegisterUser }) {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [name, setName] = useState('');
+function Register({ onRegisterUser, popup, popupText }) {
 
-	const { register, handleSubmit, formState: { errors }, reset } = useForm({mode: 'onBlur'});
+	const { register, handleSubmit, formState: { errors }, reset } = useForm({ mode: 'onBlur' });
 
 	function onSubmit(data) {
 		onRegisterUser({
 			name: data.name,
-      email: data.email,
-      password: data.password,
+			email: data.email,
+			password: data.password,
 		});
 		reset();
 	}
@@ -107,7 +103,10 @@ function Register({ onRegisterUser }) {
 					<Link to="/signin" className='register__suggest-button'>Войти</Link>
 				</p>
 			</div>
-		</main >
+			<p className={`popupText ${popup && 'popupText_on'}`}>
+				{popupText}
+			</p>
+		</main>
 	)
 }
 

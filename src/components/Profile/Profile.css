@@ -122,3 +122,23 @@
 	line-height: 12px;
 	color: #EE3465;
 }
+
+.popupText {
+	color: #fff;
+	position: absolute;
+	text-align: center;
+	padding: 30px;
+	border: 5px solid #303030;
+	border-radius: 10px;
+	background-color: #313131;
+	opacity: 0.95;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1;
+	visibility: hidden;
+	z-index: 2;
+}
+
+.popupText_on {
+	visibility: visible;
+}
