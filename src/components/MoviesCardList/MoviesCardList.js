@@ -9,7 +9,8 @@ function MoviesCardList({
 	whileSearch,
 	afterSearch,
 	handleSaveClick,
-	savedCard
+	savedCard,
+	checkLike
 }) {
 
 	return (
@@ -27,6 +28,7 @@ function MoviesCardList({
 								path={path}
 								isVisible={id <= countSeeMovies}
 								savedCard={savedCard}
+								checkLike={checkLike}
 							/>
 						))}
 					</ul>

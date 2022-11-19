@@ -23,6 +23,7 @@ function App() {
 	const [userMovies, setUserMovies] = useState([]);
 	const [showedMovies, setShowedMovies] = useState([]);
 	const [filteredMovies, setFilteredMovies] = useState([]);
+	const [filteredUsersMovies, setFilteredUsersMovies] = useState([]);
 
 	const [searchEmpty, setSearchEmpty] = useState(false);
 	const [searchWord, setSearchWord] = useState('');
@@ -136,8 +137,8 @@ function App() {
 			evt.preventDefault();
 			setWhileSearch(true);
 			localStorage.getItem('userMovies', JSON.parse(userMovies));
-			setFilteredMovies(findMovies(userMovies, searchUserWord));
 			localStorage.setItem('searchUserWord', searchUserWord);
+			setFilteredUsersMovies(findMovies(userMovies, searchUserWord));
 			const movie = userMovies.map((movie) => {
 				movie.like = checkLike(movie.id);
 				return movie;
@@ -146,7 +147,7 @@ function App() {
 			setWhileSearch(false);
 			setAfterSearch(true);
 		} {
-			// console.log('Я не справился, босс');
+			console.log('Я не справился, босс');
 		}
 	}
 
@@ -154,7 +155,7 @@ function App() {
 		if (filteredMovies.length === 0) {
 			setShowedMovies([]);
 		} else {
-			if (isCheckboxShort) {
+			if (isCheckboxShort ) {
 				setShowedMovies(filteredMovies.filter((movie) => movie.duration < 40).slice(0, countSeeMovies));
 				localStorage.setItem('shortMovie', showedMovies);
 			} else {
@@ -166,10 +167,7 @@ function App() {
 
 	function findMovies(loadedMovies, searchWord) {
 		return loadedMovies.filter(movie => {
-			if (movie.nameRU) {
-				return movie.nameRU.toLowerCase().includes(searchWord.toLowerCase());
-			}
-			return;
+			return movie.nameRU.toLowerCase().includes(searchWord.toLowerCase());
 		});
 	}
 
@@ -260,38 +258,62 @@ function App() {
 				localStorage.removeItem('showedMovies');
 				localStorage.removeItem('checkboxValue');
 				localStorage.removeItem('userCheckboxValue');
-				localStorage.setremoveItemItem('searchUserWord');
-				localStorage.setremoveItemItem('searchUserWord');
+				localStorage.removeItem('searchUserWord');
+				localStorage.removeItem('allMovies');
 			})
 			.catch((err) => console.log(err));
 	}
 
 	function handleSaveClick(movie, savedCard) {
 		if (!savedCard && !movie.like) {
-			mainApi.toggleSave(movie, savedCard, movie.like)
+			mainApi.saveMovie(movie, savedCard = false, movie.like)
 				.then((res) => {
-					console.log("Хочу сохранить и ПОКАЗЫВАЮ", movie.like)
 					userMovies.push(res);
 					movie.like = true;
-					console.log("movie.likemovie.likemovie.likemovie.like", movie.like)
-					// userMovies.find((item) => item.id === movie.id).like = true;
-					localStorage.setItem('userMovies', JSON.stringify(res));
+					console.log("Вот тут же сохранил и СЕЙЧАС", movie.like)
+					allMovies.find(function (item) {
+						return item.id === movie.id;
+					}).like = true;
+					// userMovies.find((item) => item._id === currentUser._id).like = true;
+					localStorage.setItem('allMovies', JSON.stringify(res));
 				})
 				.catch((err) => {
 					console.log(err);
 				});
-		}
-		else {
-			console.log("Хочу удалить и ПОКАЗЫВАЮ", movie._id)
-			mainApi.deleteMovie(movie)
+		} else {
+			const indexCard = userMovies.findIndex(function (card) {
+				return card.movieId === (savedCard ? movie.movieId : movie.id);
+			});
+			mainApi.deleteMovie(userMovies[indexCard]._id)
 				.then((res) => {
-					const newMovies = userMovies.filter((movie) => movie._id !== res._id);
-					setUserMovies(newMovies)
-					console.log(res)
+					userMovies.splice(indexCard, 1);
+					console.log("indexCard", indexCard)
+					const chosenCard = allMovies.find(function (card) {
+						return card.id === (savedCard ? movie.movieId : movie.id);
+					});
+					console.log("cardOfMoviesArray", chosenCard)
+					chosenCard.like = false;
+					setUserMovies(userMovies)
+					localStorage.setItem('allMovies', JSON.stringify(allMovies));
+					localStorage.setItem('userMovies', JSON.stringify(userMovies));
 				})
-				.catch((err) => console.log(err));
+				.catch((err) => {
+					console.log(err);
+					setPopup(true);
+					setPopupText('Данные не обновлены! Возникла ошибка.')
+				})
+				.finally(() => {
+					setTimeout(() => {
+						setPopup(false);
+						setPopupText('')
+					}, 2000)
+				})
 		}
 	}
+
+	// useEffect(() => {
+	// setIsOwn(toggleSaveCloseClass());
+	// }, [movies]);
 
 	useEffect(() => {
 		mainApi.getMovies()
@@ -345,6 +367,7 @@ function App() {
 						whileSearch={whileSearch}
 						afterSearch={afterSearch}
 						handleSaveClick={handleSaveClick}
+						checkLike={checkLike}
 					/>
 					<ProtectedRoute
 						loggedIn={loggedIn}
@@ -361,6 +384,7 @@ function App() {
 						whileSearch={whileSearch}
 						afterSearch={afterSearch}
 						countSeeMovies={countSeeMovies}
+						checkLike={checkLike}
 					/>
 					<ProtectedRoute
 						loggedIn={loggedIn}

@@ -37,38 +37,6 @@ class MainApi {
 			.then(this._checkResponseStatus)
 	}
 
-	toggleSave(card, isSaved, isMineMovie) {
-		if (!isSaved) {
-			return fetch(`${this._baseURL}/movies`, {
-				method: 'POST',
-				headers: this._headers,
-				credentials: this._credentials,
-				body: JSON.stringify({
-					country: card.country,
-					director: card.director,
-					duration: card.duration,
-					year: card.year,
-					description: card.description,
-					image: `https://api.nomoreparties.co${card.image.url}`,
-					nameRU: card.nameRU,
-					nameEN: card.nameEN,
-					trailerLink: card.trailerLink,
-					thumbnail: `https://api.nomoreparties.co${card.image.formats.thumbnail.url}`,
-					movieId: card.id
-				})
-			})
-				.then(this._checkResponseStatus)
-		} else {
-			console.log('удаляю card._id', card._id);
-			return fetch(`${this._baseURL}/movies/${card._id}`, {
-				method: 'DELETE',
-				headers: this._headers,
-				credentials: this._credentials,
-			})
-				.then(this._checkResponseStatus)
-		}
-	}
-
 	saveMovie(card) {
 		return fetch(`${this._baseURL}/movies`, {
 			method: 'POST',
@@ -92,9 +60,8 @@ class MainApi {
 		});
 	}
 
-	deleteMovie(movie) {
-		console.log('удаляю id', movie._id);
-		return fetch(`${this._baseURL}/movies/${movie._id}`, {
+	deleteMovie(_id) {
+		return fetch(`${this._baseURL}/movies/${_id}`, {
 			method: 'DELETE',
 			headers: this._headers,
 			credentials: this._credentials,

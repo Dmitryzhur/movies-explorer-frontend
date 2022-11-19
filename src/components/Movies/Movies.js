@@ -21,7 +21,8 @@ function Movies({
 	initialCount,
 	whileSearch,
 	afterSearch,
-	handleSaveClick
+	handleSaveClick,
+	checkLike
 }) {
 
 	return (
@@ -45,6 +46,7 @@ function Movies({
 					afterSearch={afterSearch}
 					handleSaveClick={handleSaveClick}
 					savedCard={false}
+					checkLike={checkLike}
 				/>
 				{(filteredMovies.length > initialCount && filteredMovies.length > countSeeMovies) &&
 				<ButtonMore onClick={handlerAddMovie} />}
