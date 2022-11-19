@@ -2,8 +2,16 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
 
-function MoviesCardList({ movies, path, countSeeMovies, whileSearch, afterSearch }) {
- 
+function MoviesCardList({
+	movies,
+	path,
+	countSeeMovies,
+	whileSearch,
+	afterSearch,
+	handleSaveClick,
+	savedCard
+}) {
+
 	return (
 		<section className='movies__section'>
 			<div className='movies__container'>
@@ -15,9 +23,10 @@ function MoviesCardList({ movies, path, countSeeMovies, whileSearch, afterSearch
 							<MoviesCard
 								key={movie.id}
 								movie={movie}
-								// isSaved={false}
+								onSave={handleSaveClick}
 								path={path}
 								isVisible={id <= countSeeMovies}
+								savedCard={savedCard}
 							/>
 						))}
 					</ul>

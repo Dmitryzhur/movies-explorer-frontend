@@ -15,14 +15,14 @@ function Movies({
 	showedMovies,
 	isCheckboxShort,
 	searchWord,
-	handleLikeClick,
 	searchErrorClass,
 	handlerAddMovie,
 	countSeeMovies,
 	filteredMovies,
 	initialCount,
 	whileSearch,
-	afterSearch
+	afterSearch,
+	handleSaveClick
 }) {
 
 	return (
@@ -41,10 +41,11 @@ function Movies({
 					movies={showedMovies}
 					path={path}
 					isCheckboxShort={isCheckboxShort}
-					handleLikeClick={handleLikeClick}
 					countSeeMovies={countSeeMovies}
 					whileSearch={whileSearch}
 					afterSearch={afterSearch}
+					handleSaveClick={handleSaveClick}
+					savedCard={false}
 				/>
 				{(filteredMovies.length > initialCount && filteredMovies.length > countSeeMovies) &&
 				<ButtonMore onClick={handlerAddMovie} />}

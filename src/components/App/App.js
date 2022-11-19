@@ -19,11 +19,9 @@ function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
 	const history = useHistory();
 
-
 	const [allMovies, setAllMovies] = useState([]);
 	const [userMovies, setUserMovies] = useState([]);
 	const [showedMovies, setShowedMovies] = useState([]);
-	const [showedUserMovies, setShowedUserMovies] = useState([]);
 	const [filteredMovies, setFilteredMovies] = useState([]);
 
 	const [searchEmpty, setSearchEmpty] = useState(false);
@@ -31,7 +29,7 @@ function App() {
 	const [isUserCheckboxShort, setIsUserCheckboxShort] = useState(false);
 	const [searchUserWord, setSearcUserhWord] = useState('');
 	const [whileSearch, setWhileSearch] = useState(false);
-	const afterSearch = Boolean(searchWord);
+	const [afterSearch, setAfterSearch] = useState(false);
 
 	const [shortMovie, setShortMovie] = useState([]);
 	const [isCheckboxShort, setIsCheckboxShort] = useState(false);
@@ -74,17 +72,25 @@ function App() {
 		}, 500)
 	})
 
-
 	const searchErrorClass = searchEmpty
 		? 'search-form__error_visible'
 		: '';
 
-		
-
 	function handleChangeSearch(evt) {
+		evt.preventDefault();
 		setSearchEmpty(false);
+		setAfterSearch(false);
 		setSearchWord(evt.target.value)
 	}
+
+	function handleUserChangeSearch(evt) {
+		evt.preventDefault();
+		setSearchEmpty(false);
+		setAfterSearch(false);
+		setSearcUserhWord(evt.target.value)
+	}
+
+	const checkLike = (id) => userMovies.some((movie) => parseInt(movie.movieId) === id);
 
 	function handleSubmitSearchForm(evt) {
 		if (!searchWord) {
@@ -93,7 +99,6 @@ function App() {
 			setShowedMovies([]);
 			return;
 		}
-
 		evt.preventDefault();
 		setWhileSearch(true);
 		moviesApi.getMovies()
@@ -102,12 +107,44 @@ function App() {
 				localStorage.setItem('allMovies', JSON.stringify(loadedMovies));
 				localStorage.setItem('searchWord', searchWord);
 				setFilteredMovies(findMovies(loadedMovies, searchWord));
+				const movie = loadedMovies.map((movie) => {
+					movie.like = checkLike(movie.id);
+					return movie;
+				})
+				localStorage.setItem('userMovies', movie);
 			})
 			.catch(() => {
 				setAllMovies([]);
 				setFilteredMovies([]);
 			})
-			.finally(() => setWhileSearch(false));
+			.finally(() => {
+				setWhileSearch(false);
+				setAfterSearch(true);
+			});
+	}
+
+	function handleSubmitUserSearchForm(evt) {
+		if (!searchUserWord) {
+			evt.preventDefault();
+			setSearchEmpty(true);
+			setShowedMovies([]);
+			return;
+		} else {
+			evt.preventDefault();
+			setWhileSearch(true);
+			localStorage.getItem('userMovies', JSON.parse(userMovies));
+			setFilteredMovies(findMovies(userMovies, searchUserWord));
+			localStorage.setItem('searchUserWord', searchUserWord);
+			const movie = userMovies.map((movie) => {
+				movie.like = checkLike(movie.id);
+				return movie;
+			})
+			localStorage.setItem('userMovies', movie);
+			setWhileSearch(false);
+			setAfterSearch(true);
+		} {
+			console.log('Я не справился, босс');
+		}
 	}
 
 	useEffect(() => {
@@ -116,8 +153,10 @@ function App() {
 		} else {
 			if (isCheckboxShort) {
 				setShowedMovies(filteredMovies.filter((movie) => movie.duration < 40).slice(0, countSeeMovies));
+				localStorage.setItem('shortMovie', showedMovies);
 			} else {
 				setShowedMovies(filteredMovies.slice(0, countSeeMovies));
+				localStorage.setItem('showedMovies', showedMovies);
 			}
 		}
 	}, [filteredMovies, countSeeMovies, isCheckboxShort])
@@ -132,7 +171,7 @@ function App() {
 	}
 
 	function toggleValueCheckbox(value) {
-		if ('/movies') {
+		if (history.path === '/movies') {
 			setIsCheckboxShort(value);
 			localStorage.setItem('checkboxValue', value);
 		} else {
@@ -184,10 +223,55 @@ function App() {
 		auth.logout()
 			.then(() => {
 				setLoggedIn(false);
+				localStorage.removeItem('searchWord');
+				localStorage.removeItem('userMovies');
+				localStorage.removeItem('shortMovie');
+				localStorage.removeItem('showedMovies');
+				localStorage.removeItem('checkboxValue');
+				localStorage.removeItem('userCheckboxValue');
+				localStorage.setremoveItemItem('searchUserWord');
+				localStorage.setremoveItemItem('searchUserWord');
 			})
 			.catch((err) => console.log(err));
 	}
 
+	function handleSaveClick(movie, savedCard) {
+		if (!savedCard && !movie.like) {
+			mainApi.toggleSave(movie, savedCard, movie.like)
+				.then((res) => {
+					console.log("Хочу сохранить и ПОКАЗЫВАЮ", movie.like)
+					userMovies.push(res);
+					movie.like = true;
+					console.log("movie.likemovie.likemovie.likemovie.like", movie.like)
+					// userMovies.find((item) => item.id === movie.id).like = true;
+					localStorage.setItem('userMovies', JSON.stringify(res));
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
+		else {
+			console.log("Хочу удалить и ПОКАЗЫВАЮ", movie._id)
+			mainApi.deleteMovie(movie)
+				.then((res) => {
+					const newMovies = userMovies.filter((movie) => movie._id !== res._id);
+					setUserMovies(newMovies)
+					console.log(res)
+				})
+				.catch((err) => console.log(err));
+		}
+	}
+
+	useEffect(() => {
+		mainApi.getMovies()
+			.then((userData) => {
+				setUserMovies(userData);
+				localStorage.setItem('userMovies', JSON.stringify(userMovies));
+			})
+			.catch((err) => {
+				console.log(err);
+			})
+	}, [currentUser]);
 
 	useEffect(() => {
 		mainApi.getUser()
@@ -208,7 +292,9 @@ function App() {
 			<div className="page">
 				<Switch>
 					<Route exact path="/">
-						<Main />
+						<Main
+							isLoggedIn={loggedIn}
+						/>
 					</Route>
 					<ProtectedRoute
 						loggedIn={loggedIn}
@@ -221,29 +307,29 @@ function App() {
 						isCheckboxShort={isCheckboxShort}
 						searchWord={searchWord}
 						searchErrorClass={searchErrorClass}
-						allMovies={allMovies}
-						addedCount={addedCount}
-						setAddedCount={setAddedCount}
 						handlerAddMovie={handlerAddMovie}
 						countSeeMovies={countSeeMovies}
 						filteredMovies={filteredMovies}
 						initialCount={initialCount}
-						setShowedMovies={setShowedMovies}
 						whileSearch={whileSearch}
 						afterSearch={afterSearch}
+						handleSaveClick={handleSaveClick}
 					/>
 					<ProtectedRoute
 						loggedIn={loggedIn}
 						component={SavedMovies}
 						path="/saved-movies"
-						handleChangeSearch={handleChangeSearch}
-						handleSubmitSearchForm={handleSubmitSearchForm}
+						handleChangeSearch={handleUserChangeSearch}
+						handleSubmitSearchForm={handleSubmitUserSearchForm}
 						toggleValueCheckbox={toggleValueCheckbox}
-						showedMovies={showedUserMovies}
+						showedMovies={userMovies}
 						isCheckboxShort={isUserCheckboxShort}
 						searchWord={searchUserWord}
 						searchErrorClass={searchErrorClass}
-
+						handleSaveClick={handleSaveClick}
+						whileSearch={whileSearch}
+						afterSearch={afterSearch}
+						countSeeMovies={countSeeMovies}
 					/>
 					<ProtectedRoute
 						loggedIn={loggedIn}
