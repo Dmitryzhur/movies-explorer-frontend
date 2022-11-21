@@ -1,20 +1,22 @@
 import './FilterCheckbox.css';
-import { useCallback, useState, memo } from "react";
 
-const FilterCheckbox = memo(() => {
-	const [isSelectedShortMovie, setIsSelectedIsShortMovie] = useState(false);
-	const onSelectShortMovie = useCallback(
-		() => setIsSelectedIsShortMovie(!isSelectedShortMovie),
-		[isSelectedShortMovie]
-	);
+function FilterCheckbox({ shortMovie, toggleValueCheckbox }) {
+
 	return (
-		<div className='checkbox__container'>
-			<div className={`checkbox__short-box ${isSelectedShortMovie ? "isSelectedBox" : ""}`} onClick={onSelectShortMovie}>
-				<div className={`checkbox__short-item ${isSelectedShortMovie ? "isSelectedItem" : ""}`} />
-			</div>
-			<div className='checkbox__title'>Короткометражки</div>
+		<div className="checkbox__container">
+			<input
+				className="checkbox__short-item"
+				type="checkbox"
+				id="check"
+				placeholder='Короткометражки'
+				checked={shortMovie}
+				onChange={toggleValueCheckbox}
+				required
+			/>
+			<label className="checkbox__short-box" htmlFor="check" />
+			<p className="checkbox__title">Короткометражки</p>
 		</div>
 	);
-});
+};
 
 export default FilterCheckbox;

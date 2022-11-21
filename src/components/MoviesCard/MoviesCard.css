@@ -4,10 +4,14 @@
 	padding: 0;
 	box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.05);
 	border-radius: 10px;
-	display: flex;
+	display: none;
 	flex-direction: column;
 	overflow: hidden;
 	width: 270px;
+}
+
+.movie-card__on {
+	display: flex;
 }
 
 .movie-card__image {
@@ -29,11 +33,14 @@
 
 .movie-card__name {
 	padding: 0;
-	margin: 0 0 10px 0;
+	margin: 0 25px 10px 0;
 	color: #fff;
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 1;
+	text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .movie-card__duration {
@@ -68,6 +75,30 @@
 	background: url(../../images/button__close.svg) center no-repeat;
 	border: 0;
 	box-shadow: none;
+}
+
+.movie-card__link {
+	position: relative;
+}
+
+.movie-card__link::before {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, .6);
+	color: #fff;
+	content: "Открыть трейлер";
+	opacity: 0;
+	visibility: hidden;
+	transition: all .5s;
+}
+
+.movie-card__link:hover::before {
+	opacity: 1;
+	visibility: visible;
 }
 
 @media screen and (max-width: 1200px) {
