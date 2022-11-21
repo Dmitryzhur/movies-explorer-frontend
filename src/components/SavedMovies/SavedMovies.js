@@ -3,45 +3,38 @@ import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
+import { useEffect } from "react";
 
-function SavedMovies({
-	loggedIn,
-	path,
-	handleChangeSearch,
-	handleSubmitSearchForm,
-	toggleValueCheckbox,
-	showedMovies,
-	isCheckboxShort,
-	searchWord,
-	searchErrorClass,
-	whileSearch,
-	afterSearch,
-	handleSaveClick,
-	countSeeMovies
-}) {
+function SavedMovies(props) {
+
+	useEffect(() => {
+		props.setIsSearched(false)
+	}, []);
 
 	return (
 		<>
-			<Header loggedIn={loggedIn} />
+			<Header loggedIn={props.loggedIn} />
 			<main className='saved-movies'>
 				<SearchForm
-					searchWord={searchWord}
-					handleChangeSearch={handleChangeSearch}
-					handleSubmitSearchForm={handleSubmitSearchForm}
-					toggleValueCheckbox={toggleValueCheckbox}
-					isCheckboxShort={isCheckboxShort}
-					searchErrorClass={searchErrorClass}
+					shortMovie={props.shortMovie}
+					onSearchMovies={props.showedMovies}
+					toggleValueCheckbox={props.toggleValueCheckbox}
+					searchWord={props.searchWord}
 				/>
+
 				<MoviesCardList
-					movies={showedMovies}
-					path={path}
-					isCheckboxShort={isCheckboxShort}
-					countSeeMovies={countSeeMovies}
-					whileSearch={whileSearch}
-					afterSearch={afterSearch}
-					handleSaveClick={handleSaveClick}
-					savedCard={true}
+					userMovies={props.userMovies}
+					onSaveMovie={props.onSaveMovie}
+					searchEmpty={props.searchEmpty}
+					whileSearch={props.whileSearch}
+					afterSearch={props.afterSearch}
+					movies={props.isSearched
+						? props.movies
+						: props.allSaveMovie}
 				/>
+				{<p className={`popupText ${props.popup && 'popupText_on'}`}>
+					{props.popupText}
+				</p>}
 			</main>
 			<Footer />
 		</>

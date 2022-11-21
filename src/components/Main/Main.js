@@ -7,8 +7,7 @@ import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 
 
-function Main() {
-	const loggedIn = false;
+function Main({loggedIn}) {
 
 	return (
 		<>

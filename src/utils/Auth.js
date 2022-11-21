@@ -1,3 +1,4 @@
+import { BASE_URL } from './constants.js';
 class Auth {
 	constructor(options) {
 		this._baseURL = options.baseUrl;
@@ -43,8 +44,7 @@ class Auth {
 }
 
 const AUTH_CONFIG = {
-	// baseUrl: 'https://api.dmitryzhur-movies.nomoredomains.icu',
-	baseUrl: 'http://localhost:4000',
+	baseUrl: BASE_URL,
 	headers: {
 		'Content-Type': 'application/json'
 	},

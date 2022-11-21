@@ -1,3 +1,4 @@
+import { BEATFILM_MOVIES_URL } from './constants.js';
 class MoviesApi {
 	constructor(options) {
 		this._baseURL = options.baseUrl;
@@ -22,7 +23,7 @@ class MoviesApi {
 }
 
 const API_CONFIG = {
-	baseUrl: 'https://api.nomoreparties.co/beatfilm-movies',
+	baseUrl: BEATFILM_MOVIES_URL,
 	headers: {
 		'Content-Type': 'application/json'
 	},

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 
 function Register({ onRegisterUser, popup, popupText }) {
 
-	const { register, handleSubmit, formState: { errors }, reset } = useForm({ mode: 'onBlur' });
+	const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onBlur' });
 
 	function onSubmit(data) {
 		onRegisterUser({
@@ -14,7 +14,6 @@ function Register({ onRegisterUser, popup, popupText }) {
 			email: data.email,
 			password: data.password,
 		});
-		reset();
 	}
 
 	return (

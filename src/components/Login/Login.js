@@ -5,14 +5,13 @@ import isEmail from "validator/lib/isEmail";
 import { useForm } from "react-hook-form";
 
 function Login({ onLoginUser, popup, popupText }) {
-	const { register, handleSubmit, formState: { errors }, reset } = useForm({ mode: 'onBlur' });
+	const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onBlur' });
 
 	function onSubmit(data) {
 		onLoginUser({
 			email: data.email,
 			password: data.password,
 		});
-		reset();
 	}
 
 	return (
@@ -70,7 +69,6 @@ function Login({ onLoginUser, popup, popupText }) {
 				<button
 					className='login__button'
 					type='submit'
-					// onSubmit={handleSubmit}
 					form="login__form"
 				>
 					Войти

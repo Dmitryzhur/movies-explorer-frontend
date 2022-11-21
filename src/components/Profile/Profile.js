@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import './Profile.css';
 import Header from '../Header/Header';
@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 
 function Profile(props) {
 	const currentUser = useContext(CurrentUserContext);
-	const [name, setName] = useState(currentUser.name);
 
 	const { register, formState: { errors, isValid }, handleSubmit } = useForm({ mode: 'onChange' });
 
@@ -27,7 +26,7 @@ function Profile(props) {
 			<Header loggedIn={props.loggedIn} />
 			<main className='profile'>
 				<div className='profile__greeting'>
-					<h2 className='profile__title'>Привет, {name}!</h2>
+					<h2 className='profile__title'>Привет, {currentUser.name}!</h2>
 				</div>
 				<form className='profile__info' id="profile__form" noValidate onSubmit={handleSubmit(handleSubmitChanges)}>
 					<div className='profile__box'>

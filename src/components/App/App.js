@@ -13,32 +13,37 @@ import NotFound from '../NotFound/NotFound';
 import auth from '../../utils/Auth';
 import mainApi from '../../utils/MainApi';
 import moviesApi from "../../utils/MoviesApi";
+import { DURATION__SHORTMOVIES } from "../../utils/constants"
 
 function App() {
 	const [currentUser, setCurrentUser] = useState([]);
 	const [loggedIn, setLoggedIn] = useState(false);
 	const history = useHistory();
 
-	const [allMovies, setAllMovies] = useState([]);
-	const [userMovies, setUserMovies] = useState([]);
 	const [showedMovies, setShowedMovies] = useState([]);
-	const [filteredMovies, setFilteredMovies] = useState([]);
-	const [filteredUsersMovies, setFilteredUsersMovies] = useState([]);
+	const [searchedUserMovies, setSearchedUserMovies] = useState([]); // 
+	const [userMovies, setUserMovies] = useState([]);
+	const [userNewMovies, setUserNewMovies] = useState([]);
 
 	const [searchEmpty, setSearchEmpty] = useState(false);
+	const [searchUserEmpty, setSearchUserEmpty] = useState(false);
 	const [searchWord, setSearchWord] = useState('');
-	const [isUserCheckboxShort, setIsUserCheckboxShort] = useState(false);
-	const [searchUserWord, setSearcUserhWord] = useState('');
+	const [searchUserWord, setSearchUserWord] = useState('');
+	const [searchedMoviesList, setSearchedMoviesList] = useState([]);
+	const [searchedShortMoviesList, setSearchedShortMoviesList] = useState([]);
+	const [isSearched, setIsSearched] = useState(false);
+
 	const [whileSearch, setWhileSearch] = useState(false);
 	const [afterSearch, setAfterSearch] = useState(false);
+	const [buttonMoreMovies, setButtonMoreMovies] = useState(false);
 
-	const [shortMovie, setShortMovie] = useState([]);
-	const [isCheckboxShort, setIsCheckboxShort] = useState(false);
+	const [shortMovie, setShortMovie] = useState(false);
+	const [shortSaveMovie, setShortSaveMovie] = useState(false);
 
 	const [initialCount, setInitialCount] = useState(0);
 	const [addedCount, setAddedCount] = useState(0);
+	const [countCards, setCountCards] = useState(0);
 	const [width, setWidth] = useState(window.innerWidth);
-	const [countSeeMovies, setCountSeeMovies] = useState(initialCount);
 
 	const [popup, setPopup] = useState(false);
 	const [popupText, setPopupText] = useState('');
@@ -59,14 +64,26 @@ function App() {
 		}
 	}
 
-	function handlerAddMovie() {
-		setCountSeeMovies(countSeeMovies + addedCount);
+	function handleAddMovie() {
+		if (showedMovies.length - initialCount > addedCount) {
+			setInitialCount(initialCount + addedCount);
+		} else {
+			setInitialCount(showedMovies.length);
+			setButtonMoreMovies(false);
+		}
+	}
+
+	function checkedButtonMoreMovies() {
+		if (countCards > 3 && initialCount < countCards) {
+			setButtonMoreMovies(true);
+		} else {
+			setButtonMoreMovies(false);
+		}
 	}
 
 	useEffect(() => {
-		setCountSeeMovies(initialCount);
-		handleCountCardsOnPage()
-	}, [initialCount, width]);
+		handleCountCardsOnPage();
+	}, [width])
 
 
 	window.onresize = (() => {
@@ -76,119 +93,113 @@ function App() {
 		}, 500)
 	})
 
-	const searchErrorClass = searchEmpty
-		? 'search-form__error_visible'
-		: '';
-
-	function handleChangeSearch(evt) {
-		evt.preventDefault();
+	function handleSearchMovies(searchWord) {
+		setSearchedMoviesList([]);
+		setSearchedShortMoviesList([]);
 		setSearchEmpty(false);
-		setAfterSearch(false);
-		setSearchWord(evt.target.value)
-	}
-
-	function handleUserChangeSearch(evt) {
-		evt.preventDefault();
-		setSearchEmpty(false);
-		setAfterSearch(false);
-		setSearcUserhWord(evt.target.value)
-	}
-
-	const checkLike = (id) => userMovies.some((movie) => parseInt(movie.movieId) === id);
-
-	function handleSubmitSearchForm(evt) {
-		if (!searchWord) {
-			evt.preventDefault();
-			setSearchEmpty(true);
-			setShowedMovies([]);
-			return;
-		}
-		evt.preventDefault();
 		setWhileSearch(true);
 		moviesApi.getMovies()
 			.then(loadedMovies => {
-				setAllMovies(loadedMovies);
-				localStorage.setItem('allMovies', JSON.stringify(loadedMovies));
-				localStorage.setItem('searchWord', searchWord);
-				setFilteredMovies(findMovies(loadedMovies, searchWord));
-				const movie = loadedMovies.map((movie) => {
-					movie.like = checkLike(movie.id);
-					return movie;
-				})
-				localStorage.setItem('userMovies', movie);
+				if (loadedMovies) {
+					if (shortMovie === true) {
+						const res = loadedMovies.filter((movie) => {
+							return movie.nameRU.toLowerCase().indexOf(searchWord.toLowerCase()) !== -1
+								&& movie.duration < DURATION__SHORTMOVIES;
+						});
+						if (res.length === 0) {
+							setSearchEmpty(true);
+						}
+						setSearchedShortMoviesList(res);
+						localStorage.setItem('searchedMoviesList', JSON.stringify(res));
+						localStorage.setItem('searchWord', searchWord);
+						localStorage.setItem('shortMovies', shortMovie)
+					} else {
+						const res = loadedMovies.filter((movie) => {
+							return movie.nameRU.toLowerCase().indexOf(searchWord.toLowerCase()) !== -1;
+						});
+						if (res.length === 0) {
+							setSearchEmpty(true);
+						}
+						setSearchedMoviesList(res);
+						localStorage.setItem('searchedMoviesList', JSON.stringify(res));
+						localStorage.setItem('searchWord', searchWord);
+						localStorage.setItem('shortMovies', shortMovie)
+					}
+				} else {
+					setShowedMovies([]);
+				}
 			})
-			.catch(() => {
-				setAllMovies([]);
-				setFilteredMovies([]);
+			.catch((err) => {
+				console.log(err);
 			})
 			.finally(() => {
 				setWhileSearch(false);
 				setAfterSearch(true);
-			});
-	}
-
-	function handleSubmitUserSearchForm(evt) {
-		if (!searchUserWord) {
-			evt.preventDefault();
-			setSearchEmpty(true);
-			setShowedMovies([]);
-			return;
-		} else {
-			evt.preventDefault();
-			setWhileSearch(true);
-			localStorage.getItem('userMovies', JSON.parse(userMovies));
-			localStorage.setItem('searchUserWord', searchUserWord);
-			setFilteredUsersMovies(findMovies(userMovies, searchUserWord));
-			const movie = userMovies.map((movie) => {
-				movie.like = checkLike(movie.id);
-				return movie;
 			})
-			localStorage.setItem('userMovies', movie);
-			setWhileSearch(false);
-			setAfterSearch(true);
-		} {
-			console.log('Я не справился, босс');
+	}
+
+	function handleSearchUserMovies(searchWord) {
+		setIsSearched(true);
+		setSearchUserWord(searchWord);
+		setSearchUserEmpty(false);
+		setSearchedUserMovies([]);
+		setWhileSearch(true);
+		mainApi.getMovies()
+			.then((userData) => {
+				if (shortSaveMovie) {
+					const res = userData.filter((movie) => {
+						return movie.nameRU.toLowerCase().indexOf(searchWord.toLowerCase()) !== -1 && movie.duration < 40;
+					});
+					if (res.length === 0) {
+						setSearchUserEmpty(true)
+					}
+					setSearchedUserMovies(res);
+				} else {
+					const res = userData.filter((movie) => {
+						return movie.nameRU.toLowerCase().indexOf(searchWord.toLowerCase()) !== -1;
+					});
+					if (res.length === 0) {
+						setSearchUserEmpty(true)
+					}
+					setSearchedUserMovies(res);
+				}
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+			.finally(() => {
+				setWhileSearch(false);
+				setAfterSearch(true);
+			})
+	}
+
+	function loadMovies() {
+		const searchedList = JSON.parse(localStorage.getItem('searchedMoviesList'));
+		const searchWord = localStorage.getItem('searchWord');
+		setSearchWord(searchWord);
+		if (searchedList && searchedList !== []) {
+			setShowedMovies(searchedList);
 		}
 	}
 
-	useEffect(() => {
-		if (filteredMovies.length === 0) {
-			setShowedMovies([]);
-		} else {
-			if (isCheckboxShort ) {
-				setShowedMovies(filteredMovies.filter((movie) => movie.duration < 40).slice(0, countSeeMovies));
-				localStorage.setItem('shortMovie', showedMovies);
-			} else {
-				setShowedMovies(filteredMovies.slice(0, countSeeMovies));
-				localStorage.setItem('showedMovies', showedMovies);
-			}
-		}
-	}, [filteredMovies, countSeeMovies, isCheckboxShort])
-
-	function findMovies(loadedMovies, searchWord) {
-		return loadedMovies.filter(movie => {
-			return movie.nameRU.toLowerCase().includes(searchWord.toLowerCase());
-		});
+	function toggleValueSaveCheckbox() {
+		setShortSaveMovie(!shortSaveMovie);
 	}
 
-	function toggleValueCheckbox(value) {
-		if (history.location.pathname === '/movies') {
-			setIsCheckboxShort(value);
-			localStorage.setItem('checkboxValue', value);
-		} else {
-			setIsUserCheckboxShort(value);
-			localStorage.setItem('userCheckboxValue', value);
-		}
+	function toggleValueCheckbox() {
+		setShortMovie(!shortMovie);
 	}
 
 	function handleRegisterUser(data) {
 		auth.register(data)
 			.then((res) => {
-				setLoggedIn(true);
-				history.push('/signin');
+				handleLoginUser({
+					email: data.email,
+					password: data.password
+				});
+				return res;
 			})
 			.catch((err) => {
-				setLoggedIn(false);
 				console.log(err);
 				setPopup(true);
 				setPopupText("Произошла ошибка. Попробуйте еще раз");
@@ -205,16 +216,9 @@ function App() {
 		auth.authorize(data)
 			.then((res) => {
 				setLoggedIn(true);
-				setCurrentUser(res);
-			})
-			.then(() => {
 				history.push('/movies');
-				console.log("loggedIn в авторизации показывает", loggedIn);
-				localStorage.getItem('checkboxValue');
-				localStorage.getItem('userCheckboxValue');
 			})
 			.catch((err) => {
-				setLoggedIn(false);
 				console.log(err);
 				setPopup(true);
 				setPopupText("Неправильный логин или пароль");
@@ -230,7 +234,6 @@ function App() {
 	function handleUpdateUser(data) {
 		mainApi.editProfile(data)
 			.then((res) => {
-				console.log('успех');
 				setCurrentUser(res);
 				setPopup(true);
 				setPopupText('Данные успешно обновлены!');
@@ -252,93 +255,138 @@ function App() {
 		auth.logout()
 			.then(() => {
 				setLoggedIn(false);
+				setSearchEmpty(false);
+				setShortMovie(false);
+				setSearchUserEmpty(false);
+				setSearchWord('');
+				setCountCards(0);
+				setUserMovies([]);
+				setShowedMovies([]);
+				setSearchedMoviesList([]);
+				setSearchedShortMoviesList([]);
 				localStorage.removeItem('searchWord');
-				localStorage.removeItem('userMovies');
-				localStorage.removeItem('shortMovie');
-				localStorage.removeItem('showedMovies');
-				localStorage.removeItem('checkboxValue');
-				localStorage.removeItem('userCheckboxValue');
-				localStorage.removeItem('searchUserWord');
-				localStorage.removeItem('allMovies');
+				localStorage.removeItem('shortMovies');
+				localStorage.removeItem('searchedMoviesList');
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				console.log(err);
+				setPopup(true);
+				setPopupText('Произошла ошибка. Повторите запрос.')
+			})
+			.finally(() => {
+				setTimeout(() => {
+					setPopup(false);
+					setPopupText('')
+				}, 2000)
+			})
 	}
 
-	function handleSaveClick(movie, savedCard) {
-		if (!savedCard && !movie.like) {
-			mainApi.saveMovie(movie, savedCard = false, movie.like)
-				.then((res) => {
-					userMovies.push(res);
-					movie.like = true;
-					console.log("Вот тут же сохранил и СЕЙЧАС", movie.like)
-					allMovies.find(function (item) {
-						return item.id === movie.id;
-					}).like = true;
-					// userMovies.find((item) => item._id === currentUser._id).like = true;
-					localStorage.setItem('allMovies', JSON.stringify(res));
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		} else {
-			const indexCard = userMovies.findIndex(function (card) {
-				return card.movieId === (savedCard ? movie.movieId : movie.id);
+	function handleMovieSave(movie) {
+		const isSaved = userMovies.some(i => (i.movieId === movie.movieId)) || movie.owner;
+		const movieWithId = userMovies.find((i) => i.movieId === movie.movieId) || movie;
+		mainApi.toggleSave(movie, isSaved, movieWithId)
+			.then(() => {
+				mainApi.getMovies()
+					.then((userData) => {
+						setUserMovies(userData);
+						setUserNewMovies(userData);
+					})
+					.catch((err) => {
+						console.log(err);
+					})
+			})
+			.catch((err) => {
+				console.log(err);
 			});
-			mainApi.deleteMovie(userMovies[indexCard]._id)
-				.then((res) => {
-					userMovies.splice(indexCard, 1);
-					console.log("indexCard", indexCard)
-					const chosenCard = allMovies.find(function (card) {
-						return card.id === (savedCard ? movie.movieId : movie.id);
-					});
-					console.log("cardOfMoviesArray", chosenCard)
-					chosenCard.like = false;
-					setUserMovies(userMovies)
-					localStorage.setItem('allMovies', JSON.stringify(allMovies));
-					localStorage.setItem('userMovies', JSON.stringify(userMovies));
-				})
-				.catch((err) => {
-					console.log(err);
-					setPopup(true);
-					setPopupText('Данные не обновлены! Возникла ошибка.')
-				})
-				.finally(() => {
-					setTimeout(() => {
-						setPopup(false);
-						setPopupText('')
-					}, 2000)
-				})
-		}
 	}
 
-	// useEffect(() => {
-	// setIsOwn(toggleSaveCloseClass());
-	// }, [movies]);
-
-	useEffect(() => {
+	function getUserMovies() {
 		mainApi.getMovies()
 			.then((userData) => {
 				setUserMovies(userData);
-				localStorage.setItem('userMovies', JSON.stringify(userMovies));
+				setUserNewMovies(userData);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+
+	function checkToken() {
+		mainApi.getUser()
+			.then((res) => {
+				if (res) {
+					setCurrentUser(res);
+					setLoggedIn(true);
+					history.push(history.location.pathnam);
+				}
 			})
 			.catch((err) => {
 				console.log(err);
 			})
-	}, [currentUser]);
+	}
 
 	useEffect(() => {
-		mainApi.getUser()
-			.then((res) => {
-				setCurrentUser(res);
-				setLoggedIn(true);
-			})
-			.then(() => {
-				// history.push(history.location.pathname);
-				history.push("/movies");
-			})
-			.catch((err) => { console.log(err) })
-	}, [loggedIn, history]);
+		checkToken();
+	}, []);
 
+	useEffect(() => {
+		if (loggedIn) {
+			mainApi.getUser()
+				.then((res) => {
+					setCurrentUser(res);
+					setLoggedIn(true);
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+		}
+	}, [loggedIn]);
+
+	useEffect(() => {
+		if (loggedIn) {
+			getUserMovies();
+		}
+	}, [loggedIn])
+
+	useEffect(() => {
+		if (loggedIn) {
+			loadMovies();
+		}
+	}, [loggedIn, searchedMoviesList, searchedShortMoviesList])
+
+	useEffect(() => {
+		handleSearchUserMovies(searchUserWord);
+	}, [shortSaveMovie])
+
+	useEffect(() => {
+		setUserMovies(searchedUserMovies);
+	}, [searchedUserMovies, shortSaveMovie, userMovies])
+
+	useEffect(() => {
+		if (loggedIn) {
+			setCountCards(showedMovies.length);
+		}
+	}, [showedMovies])
+
+	useEffect(() => {
+		if (loggedIn) {
+			checkedButtonMoreMovies();
+		}
+	}, [countCards])
+
+	useEffect(() => {
+		if (loggedIn) {
+			if (localStorage.getItem('shortMovies')) {
+				setShortMovie(JSON.parse(localStorage.getItem('shortMovies')));
+			}
+		}
+	}, [loggedIn])
+
+	useEffect(() => {
+		if (localStorage.getItem('searchWord')) {
+			handleSearchMovies(localStorage.getItem('searchWord'));
+		}
+	}, [shortMovie])
 
 	return (
 		<CurrentUserContext.Provider value={currentUser} >
@@ -346,45 +394,47 @@ function App() {
 				<Switch>
 					<Route exact path="/">
 						<Main
-							isLoggedIn={loggedIn}
+							loggedIn={loggedIn}
 						/>
 					</Route>
 					<ProtectedRoute
 						loggedIn={loggedIn}
 						component={Movies}
 						path="/movies"
-						handleChangeSearch={handleChangeSearch}
-						handleSubmitSearchForm={handleSubmitSearchForm}
-						toggleValueCheckbox={toggleValueCheckbox}
-						showedMovies={showedMovies}
-						isCheckboxShort={isCheckboxShort}
+						shortMovie={shortMovie}
+						onSaveMovie={handleMovieSave}
+						userMovies={userNewMovies}
 						searchWord={searchWord}
-						searchErrorClass={searchErrorClass}
-						handlerAddMovie={handlerAddMovie}
-						countSeeMovies={countSeeMovies}
-						filteredMovies={filteredMovies}
-						initialCount={initialCount}
+						movies={showedMovies.slice(0, initialCount)}
+						showedMovies={handleSearchMovies}
 						whileSearch={whileSearch}
 						afterSearch={afterSearch}
-						handleSaveClick={handleSaveClick}
-						checkLike={checkLike}
+						popupText={popupText}
+						popup={popup}
+						searchEmpty={searchEmpty}
+						toggleValueCheckbox={toggleValueCheckbox}
+						handleAddMovie={handleAddMovie}
+						buttonMoreMovies={buttonMoreMovies}
 					/>
 					<ProtectedRoute
 						loggedIn={loggedIn}
 						component={SavedMovies}
 						path="/saved-movies"
-						handleChangeSearch={handleUserChangeSearch}
-						handleSubmitSearchForm={handleSubmitUserSearchForm}
-						toggleValueCheckbox={toggleValueCheckbox}
-						showedMovies={userMovies}
-						isCheckboxShort={isUserCheckboxShort}
+						userMovies={userMovies}
+						movies={userMovies || []}
+						shortMovie={shortSaveMovie}
+						onSaveMovie={handleMovieSave}
+						setIsSearched={setIsSearched}
+						isSearched={isSearched}
+						allSaveMovie={userNewMovies}
 						searchWord={searchUserWord}
-						searchErrorClass={searchErrorClass}
-						handleSaveClick={handleSaveClick}
 						whileSearch={whileSearch}
 						afterSearch={afterSearch}
-						countSeeMovies={countSeeMovies}
-						checkLike={checkLike}
+						searchEmpty={searchUserEmpty}
+						popupText={popupText}
+						popup={popup}
+						showedMovies={handleSearchUserMovies}
+						toggleValueCheckbox={toggleValueSaveCheckbox}
 					/>
 					<ProtectedRoute
 						loggedIn={loggedIn}

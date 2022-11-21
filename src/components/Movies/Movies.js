@@ -5,51 +5,35 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 import ButtonMore from '../ButtonMore/ButtonMore';
 
-function Movies({
-	loggedIn,
-	path,
-	handleChangeSearch,
-	handleSubmitSearchForm,
-	toggleValueCheckbox,
-	showedMovies,
-	isCheckboxShort,
-	searchWord,
-	searchErrorClass,
-	handlerAddMovie,
-	countSeeMovies,
-	filteredMovies,
-	initialCount,
-	whileSearch,
-	afterSearch,
-	handleSaveClick,
-	checkLike
-}) {
+function Movies(props) {
 
 	return (
 		<>
-			<Header loggedIn={loggedIn} />
+			<Header
+				loggedIn={props.loggedIn}
+			/>
 			<main className='movies'>
 				<SearchForm
-					searchWord={searchWord}
-					handleChangeSearch={handleChangeSearch}
-					handleSubmitSearchForm={handleSubmitSearchForm}
-					toggleValueCheckbox={toggleValueCheckbox}
-					isCheckboxShort={isCheckboxShort}
-					searchErrorClass={searchErrorClass}
+					searchWord={props.searchWord}
+					shortMovie={props.shortMovie}
+					toggleValueCheckbox={props.toggleValueCheckbox}
+					onSearchMovies={props.showedMovies}
 				/>
 				<MoviesCardList
-					movies={showedMovies}
-					path={path}
-					isCheckboxShort={isCheckboxShort}
-					countSeeMovies={countSeeMovies}
-					whileSearch={whileSearch}
-					afterSearch={afterSearch}
-					handleSaveClick={handleSaveClick}
-					savedCard={false}
-					checkLike={checkLike}
+					movies={props.movies}
+					userMovies={props.userMovies}
+					onSaveMovie={props.onSaveMovie}
+					searchEmpty={props.searchEmpty}
+					whileSearch={props.whileSearch}
+					afterSearch={props.afterSearch}
 				/>
-				{(filteredMovies.length > initialCount && filteredMovies.length > countSeeMovies) &&
-				<ButtonMore onClick={handlerAddMovie} />}
+				<ButtonMore
+					buttonMoreMovies={props.buttonMoreMovies}
+					handleAddMovie={props.handleAddMovie}
+				/>
+				{<p className={`popupText ${props.popup && 'popupText_on'}`}>
+					{props.popupText}
+				</p>}
 			</main>
 			<Footer />
 		</>

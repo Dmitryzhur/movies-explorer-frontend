@@ -1,3 +1,5 @@
+import { BASE_URL } from './constants.js';
+
 class MainApi {
 	constructor(options) {
 		this._baseURL = options.baseUrl;
@@ -19,10 +21,7 @@ class MainApi {
 			method: 'PATCH',
 			headers: this._headers,
 			credentials: this._credentials,
-			body: JSON.stringify({
-				name: data.name,
-				email: data.email,
-			})
+			body: JSON.stringify(data),
 		},
 		)
 			.then(this._checkResponseStatus)
@@ -37,38 +36,24 @@ class MainApi {
 			.then(this._checkResponseStatus)
 	}
 
-	saveMovie(card) {
-		return fetch(`${this._baseURL}/movies`, {
-			method: 'POST',
-			headers: this._headers,
-			credentials: this._credentials,
-			body: JSON.stringify({
-				country: card.country,
-				director: card.director,
-				duration: card.duration,
-				year: card.year,
-				description: card.description,
-				image: `https://api.nomoreparties.co${card.image.url}`,
-				nameRU: card.nameRU,
-				nameEN: card.nameEN,
-				trailerLink: card.trailerLink,
-				thumbnail: `https://api.nomoreparties.co${card.image.formats.thumbnail.url}`,
-				movieId: card.id
-			}),
-		}).then((res) => {
-			return this._checkResponseStatus(res);
-		});
-	}
-
-	deleteMovie(_id) {
-		return fetch(`${this._baseURL}/movies/${_id}`, {
-			method: 'DELETE',
-			headers: this._headers,
-			credentials: this._credentials,
-		}).then((res) => {
-			return this._checkResponseStatus(res);
-		});
-	}
+	toggleSave(movie, isSaved, movieWithId) {
+    if (!isSaved) {
+      return fetch(`${this._baseURL}/movies`, {
+        method: 'POST',
+        body: JSON.stringify(movie),
+        headers: this._headers,
+        credentials: this._credentials,
+      })
+      .then(this._checkResponseStatus);
+    } else {
+      return fetch(`${this._baseURL}/movies/${movieWithId._id}`, {
+        method: 'DELETE',
+        headers: this._headers,
+        credentials: this._credentials,
+      })
+      .then(this._checkResponseStatus);
+    } 
+  }
 
 	_checkResponseStatus(res) {
 		if (res.ok) {
@@ -79,8 +64,7 @@ class MainApi {
 }
 
 const API_CONFIG = {
-	// baseUrl: 'https://api.dmitryzhur-movies.nomoredomains.icu',
-	baseUrl: 'http://localhost:4000',
+	baseUrl: BASE_URL,
 	headers: {
 		'Content-Type': 'application/json'
 	},

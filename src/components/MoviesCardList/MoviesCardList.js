@@ -2,38 +2,27 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
 
-function MoviesCardList({
-	movies,
-	path,
-	countSeeMovies,
-	whileSearch,
-	afterSearch,
-	handleSaveClick,
-	savedCard,
-	checkLike
-}) {
+function MoviesCardList(props) {
 
 	return (
 		<section className='movies__section'>
 			<div className='movies__container'>
-				{whileSearch ? (
+				<p className={`movies__message ${props.searchEmpty && 'movies__message_active'}`}>Ничего не найдено</p>
+				{props.whileSearch ? (
 					<Preloader />
-				) : movies.length !== 0 ? (
+				) : props.movies.length !== 0 ? (
 					<ul className="movies__list">
-						{movies.map((movie, id) => (
+						{props.movies.map((movie) => (
 							<MoviesCard
 								key={movie.id}
 								movie={movie}
-								onSave={handleSaveClick}
-								path={path}
-								isVisible={id <= countSeeMovies}
-								savedCard={savedCard}
-								checkLike={checkLike}
+								onSaveMovie={props.onSaveMovie}
+								userMovies={props.userMovies}
 							/>
 						))}
 					</ul>
 				) : (
-					afterSearch && (
+					props.afterSearch && (
 						<div className="movies__container">
 							<h2 className="movies__emptySearch">Здесь такого нет!</h2>
 						</div>

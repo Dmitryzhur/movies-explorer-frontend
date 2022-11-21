@@ -1,14 +1,27 @@
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import { useEffect, useState } from "react";
 
 function SearchForm({
-	searchWord,
-	handleChangeSearch,
-	handleSubmitSearchForm,
+	shortMovie,
+	onSearchMovies,
 	toggleValueCheckbox,
-	isCheckboxShort,
-	searchErrorClass
+	searchWord
 }) {
+	const [searchWords, setSearchWords] = useState('');
+
+	function handleSubmitSearchForm(evt) {
+		evt.preventDefault();
+		onSearchMovies(searchWords);
+	}
+
+	function handleChangeSearch(evt) {
+		setSearchWords(evt.target.value)
+	}
+
+	useEffect(() => {
+		setSearchWords(searchWord);
+	}, [])
 
 	return (
 		<section className='search-form'>
@@ -26,7 +39,7 @@ function SearchForm({
 						name='search-movie'
 						placeholder='Фильм'
 						required
-						value={searchWord}
+						value={searchWords}
 						onChange={handleChangeSearch}
 					/>
 					<button
@@ -35,10 +48,10 @@ function SearchForm({
 						form="searchForm"
 					></button>
 				</form>
-				<span className={`search-form__error ${searchErrorClass}`}>Прошу ввести слово, по которому хотите найти фильм</span>
+				<span className={`search-form__error ${!searchWords && 'search-form__eror_visible'}`}>Прошу ввести слово, по которому хотите найти фильм</span>
 				<div className='search-form__filter-checkbox'>
 					<FilterCheckbox
-						isCheckboxShort={isCheckboxShort}
+						shortMovie={shortMovie}
 						toggleValueCheckbox={toggleValueCheckbox}
 					/>
 				</div>
