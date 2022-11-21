@@ -21,7 +21,7 @@ function App() {
 	const history = useHistory();
 
 	const [showedMovies, setShowedMovies] = useState([]);
-	const [searchedUserMovies, setSearchedUserMovies] = useState([]); // 
+	const [searchedUserMovies, setSearchedUserMovies] = useState([]); 
 	const [userMovies, setUserMovies] = useState([]);
 	const [userNewMovies, setUserNewMovies] = useState([]);
 
@@ -258,8 +258,13 @@ function App() {
 				setSearchEmpty(false);
 				setShortMovie(false);
 				setSearchUserEmpty(false);
+				setWhileSearch(false);
+				setAfterSearch(false);
+				setButtonMoreMovies(false);
 				setSearchWord('');
 				setCountCards(0);
+				setSearchedUserMovies([]);
+				setUserNewMovies([]);
 				setUserMovies([]);
 				setShowedMovies([]);
 				setSearchedMoviesList([]);
